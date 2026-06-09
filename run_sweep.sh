@@ -53,5 +53,5 @@ if git diff --staged --quiet; then
     echo "🎯 No new user stories detected. Wiki remains up to date."
 else
     git commit -m "🤖 Automated Daily Audit Sweep - $(date)"
-    git push origin wikiMain 
+    git push origin HEAD
 fi
