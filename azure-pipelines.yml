@@ -1,0 +1,19 @@
+schedules:
+- cron: "0 8 * * *" # Fires automatically every single day at 8:00 AM UTC
+  displayName: Daily Automated ADO Project Technical Audit
+  always: true
+
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest' 
+
+container:
+  # Remember to replace this with your actual Docker Hub username/repo once you build it
+  image: prateekmeherk/hermes-ado-agent:latest 
+  env:
+    AZURE_DEVOPS_PAT: $(EUyQUa9Nr90Fo7rJMK2SRmgmgqQkRSrKXyyZ9MJIbbehL4kAyhpaJQQJ99CFACAAAAAAAAAAAAASAZDO1o4o)
+
+steps:
+- script: /app/run_sweep.sh
+  displayName: 'Execute Embedded Hermes Delivery Agent'
