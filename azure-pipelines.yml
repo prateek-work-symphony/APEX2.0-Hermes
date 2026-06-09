@@ -9,10 +9,11 @@ pool:
   vmImage: 'ubuntu-latest' 
 
 container:
-  # Remember to replace this with your actual Docker Hub username/repo once you build it
   image: prateekmeherk/hermes-ado-agent:latest 
   env:
-    AZURE_DEVOPS_PAT: $(EUyQUa9Nr90Fo7rJMK2SRmgmgqQkRSrKXyyZ9MJIbbehL4kAyhpaJQQJ99CFACAAAAAAAAAAAAASAZDO1o4o)
+    AZURE_DEVOPS_PAT: $(AZURE_DEVOPS_PAT)
+    MOCK_ORG: $(MOCK_ORG)
+    MOCK_PROJECT: $(MOCK_PROJECT)
 
 steps:
 - script: /app/run_sweep.sh
