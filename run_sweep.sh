@@ -9,19 +9,14 @@ mkdir -p workspace-wiki
 B64_PAT=$(printf "%s:%s" "" "$AZURE_DEVOPS_PAT" | base64 | tr -d '\n')
 git -c http.extraheader="AUTHORIZATION: Basic $B64_PAT" clone "https://dev.azure.com/${MOCK_ORG}/${MOCK_PROJECT}/_git/${MOCK_PROJECT}.wiki" workspace-wiki
 
-# 2. Step INTO the freshly cloned repo BEFORE creating the dummy file
+# 2. Step INTO the freshly cloned repo
 cd workspace-wiki
 
-# 3. THE FIX: Force create the assets folder from inside the directory
-echo "📁 Building dummy assets folder..."
+# 3. Create the dummy folder layout to satisfy the banner path check
 mkdir -p assets
 echo "Banner Bypass" > assets/banner.txt
 
-# 4. THE PROOF: Print the contents to the pipeline logs so we know it worked
-echo "🔍 Verifying dummy file existence:"
-ls -la assets/
-
-# 5. Define the Prompt
+# 4. Define the Prompt
 PROMPT="
 You are an automated engineering delivery agent.
 
@@ -47,11 +42,11 @@ You are an automated engineering delivery agent.
 - Provide a quick 1-sentence evaluation on whether these new stories are targeting the current sprint.
 "
 
-# 6. Run Hermes
+# 5. Run Hermes cleanly in headless mode
 echo "🧠 Running Technical Audit Sweep..."
-hermes chat <<< "$PROMPT" | tee -a ADO-Daily-Dump.md
+hermes -z "$PROMPT" chat >> ADO-Daily-Dump.md
 
-# 7. Commit and Push
+# 6. Commit and Push
 git config user.name "Hermes Automated Agent"
 git config user.email "hermes-agent@automation.local"
 git add ADO-Daily-Dump.md

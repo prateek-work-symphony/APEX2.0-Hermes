@@ -1,6 +1,12 @@
 FROM node:20-bookworm-slim
 
-RUN apt-get update && apt-get install -y bash git && rm -rf /var/lib/apt/lists/*
+# Install git, bash, and chromium (which provides all headless rendering libraries)
+RUN apt-get update && apt-get install -y \
+    bash \
+    git \
+    chromium \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN npm install -g hermes-cli
 RUN mkdir -p /root/.hermes
 
