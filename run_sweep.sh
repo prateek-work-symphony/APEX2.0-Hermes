@@ -40,11 +40,16 @@ You are an automated engineering delivery agent. Your output will be piped direc
 - Provide a quick 1-sentence evaluation on whether these new stories are targeting the current sprint.
 "
 
-echo "⚙️ Satisfying CLI Setup Wizard..."
-echo "" | hermes -z "init" chat > /dev/null 2>&1 || true
-
 echo "🧠 Running Technical Audit Sweep..."
-hermes -z "$PROMPT" chat < /dev/null > /tmp/Daily-Audit-Report.md
+
+# 🌟 FIX 1: The Infinite Enter Key
+# 'yes ""' answers all hidden setup wizards instantly, preventing the 130 crash.
+yes "" | hermes -z "$PROMPT" chat > /tmp/raw_dump.md || true
+
+# 🌟 FIX 2: The Markdown Extractor
+# 'sed' scans the raw dump and extracts ONLY the content starting from '---' to the bottom.
+# This permanently deletes the "Agency Name" questions from the final file!
+sed -n '/^---$/,$p' /tmp/raw_dump.md > /tmp/Daily-Audit-Report.md
 
 cp /tmp/Daily-Audit-Report.md Daily-Audit-Report.md
 
