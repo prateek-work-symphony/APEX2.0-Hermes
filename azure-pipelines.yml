@@ -14,16 +14,16 @@ pool:
 steps:
 - script: |
     echo "🐳 Pulling latest Hermes Agent image..."
-    docker pull prateekmeherk/hermes-ado-agent:v8
+    docker pull prateekmeherk/hermes-ado-agent:v9
     
     echo "🚀 Executing Agent Sandbox..."
-    docker run --rm \
+    docker run --rm -i \
       -e AZURE_DEVOPS_PAT="$MAPPED_PAT" \
       -e AZURE_FOUNDRY_API_KEY="$MAPPED_LLM_KEY" \
       -e MOCK_ORG="$(MOCK_ORG)" \
       -e MOCK_PROJECT="$(MOCK_PROJECT)" \
       -e CI="true" \
-      prateekmeherk/hermes-ado-agent:v8
+      prateekmeherk/hermes-ado-agent:v9
       
   displayName: 'Execute Embedded Hermes Delivery Agent'
   env:
