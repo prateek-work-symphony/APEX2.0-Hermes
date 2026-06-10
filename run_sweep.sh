@@ -1,20 +1,20 @@
 #!/bin/bash
 set -e
 
-# Disable all UI animations to guarantee clean Markdown formatting
+# Disable UI animations
 export TERM=dumb
 
 echo "🚀 Booting Automated Delivery Agent..."
 rm -rf workspace-wiki
 mkdir -p workspace-wiki
 
-# Secure Authentication & Clone
+# Clone the Wiki
 B64_PAT=$(printf "%s:%s" "" "$AZURE_DEVOPS_PAT" | base64 | tr -d '\n')
 git -c http.extraheader="AUTHORIZATION: Basic $B64_PAT" clone "https://dev.azure.com/${MOCK_ORG}/${MOCK_PROJECT}/_git/${MOCK_PROJECT}.wiki" workspace-wiki
 
-# 🌟 THE FIX: Create a completely empty banner file so nothing prints to the terminal
-mkdir -p assets
-touch assets/banner.txt
+# Prevent the startup banner
+mkdir -p /app/assets
+touch /app/assets/banner.txt
 
 PROMPT="
 You are an automated engineering delivery agent. Your output will be piped directly into a Markdown file. 
@@ -41,13 +41,13 @@ You are an automated engineering delivery agent. Your output will be piped direc
 
 echo "🧠 Running Technical Audit Sweep..."
 
-# 1. Execute Hermes in /app (where it is pre-configured) and write to a BRAND NEW filename
-hermes -z "$PROMPT" chat < /dev/null > Daily-Audit-Report.md
+# 🌟 THE V9 + V7 FIX: Pipe the Enter key to bypass the wizard, 
+# and write the file to the system /tmp/ folder to avoid all Permission errors.
+echo "" | hermes -z "$PROMPT" chat > /tmp/Daily-Audit-Report.md
 
-# 2. Force-copy the new report into the Git repository (bypassing any read-only locks)
-cp -f Daily-Audit-Report.md workspace-wiki/Daily-Audit-Report.md
+# Copy the safe file into the Git repository
+cp /tmp/Daily-Audit-Report.md workspace-wiki/Daily-Audit-Report.md
 
-# 3. Step into the repo, commit, and push
 cd workspace-wiki
 git config user.name "Hermes Automated Agent"
 git config user.email "hermes-agent@automation.local"
