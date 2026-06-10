@@ -1,20 +1,28 @@
 schedules:
-- cron: "0 8 * * *" # Fires automatically every single day at 8:00 AM UTC
+- cron: "30 10 * * *" 
   displayName: Daily Automated ADO Project Technical Audit
   always: true
+  branches:
+    include:
+    - main
 
 trigger: none
 
 pool:
   vmImage: 'ubuntu-latest' 
 
-container:
-  image: prateekmeherk/hermes-ado-agent:latest 
-  env:
-    AZURE_DEVOPS_PAT: $(AZURE_DEVOPS_PAT)
-    MOCK_ORG: $(MOCK_ORG)
-    MOCK_PROJECT: $(MOCK_PROJECT)
-
 steps:
-- script: /app/run_sweep.sh
+- script: |
+    echo "🐳 Pulling latest Hermes Agent image..."
+    docker pull prateekmeherk/hermes-ado-agent:v4
+    
+    echo "🚀 Executing Agent Sandbox..."
+    docker run --rm \
+      -e AZURE_DEVOPS_PAT="$MAPPED_PAT" \
+      -e MOCK_ORG="$(MOCK_ORG)" \
+      -e MOCK_PROJECT="$(MOCK_PROJECT)" \
+      prateekmeherk/hermes-ado-agent:v4
+      
   displayName: 'Execute Embedded Hermes Delivery Agent'
+  env:
+    MAPPED_PAT: $(AZURE_DEVOPS_PAT)

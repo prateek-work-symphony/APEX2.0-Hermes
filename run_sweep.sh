@@ -2,18 +2,26 @@
 set -e
 
 echo "🚀 Booting Automated Delivery Agent..."
-
-# 1. Clear out historical runs inside the container workspace
 rm -rf workspace-wiki
 mkdir -p workspace-wiki
 
-# 2. Clone the ADO Wiki repository using variables passed from the pipeline
-# The pipeline safely injects these values at runtime
-git clone "https://${AZURE_DEVOPS_PAT}@dev.azure.com/${MOCK_ORG}/${MOCK_PROJECT}/_git/${MOCK_PROJECT}.wiki" workspace-wiki
+# 1. Clone the repo
+B64_PAT=$(printf "%s:%s" "" "$AZURE_DEVOPS_PAT" | base64 | tr -d '\n')
+git -c http.extraheader="AUTHORIZATION: Basic $B64_PAT" clone "https://dev.azure.com/${MOCK_ORG}/${MOCK_PROJECT}/_git/${MOCK_PROJECT}.wiki" workspace-wiki
 
+# 2. Step INTO the freshly cloned repo BEFORE creating the dummy file
 cd workspace-wiki
 
-# 3. Define the prompt dynamically using the injected project name
+# 3. THE FIX: Force create the assets folder from inside the directory
+echo "📁 Building dummy assets folder..."
+mkdir -p assets
+echo "Banner Bypass" > assets/banner.txt
+
+# 4. THE PROOF: Print the contents to the pipeline logs so we know it worked
+echo "🔍 Verifying dummy file existence:"
+ls -la assets/
+
+# 5. Define the Prompt
 PROMPT="
 You are an automated engineering delivery agent.
 
@@ -21,7 +29,7 @@ You are an automated engineering delivery agent.
 2. For every story found, isolate these data points:
    - ID & Title
    - Creator and Creation Timestamp
-   - Description / Acceptance Criteria (Provide a concise, 1-sentence summary of the objective)
+   - Description / Acceptance Criteria
    - Area Path / Iteration Path
 
 3. Format and APPEND this data to 'ADO-Daily-Dump.md' using this layout:
@@ -36,22 +44,21 @@ You are an automated engineering delivery agent.
   - *Core Objective:* _[1-sentence description summary]_
 
 ### 🔍 Architecture & Alignment Note
-- Provide a quick 1-sentence evaluation on whether these new stories are targeting the current sprint or if they are being correctly parked in the product backlog for future refinement.
+- Provide a quick 1-sentence evaluation on whether these new stories are targeting the current sprint.
 "
 
-# 4. Trigger Hermes to dump into the markdown file
+# 6. Run Hermes
 echo "🧠 Running Technical Audit Sweep..."
 hermes -z "$PROMPT" chat >> ADO-Daily-Dump.md
 
-# 5. Git Commit and Push back to the Wiki
+# 7. Commit and Push
 git config user.name "Hermes Automated Agent"
 git config user.email "hermes-agent@automation.local"
-
 git add ADO-Daily-Dump.md
 
 if git diff --staged --quiet; then
     echo "🎯 No new user stories detected. Wiki remains up to date."
 else
     git commit -m "🤖 Automated Daily Audit Sweep - $(date)"
-    git push origin HEAD
+    git -c http.extraheader="AUTHORIZATION: Basic $B64_PAT" push origin HEAD
 fi

@@ -592,7 +592,7 @@ mcp_servers:
 # We remove the hardcoded PAT token here; Hermes automatically forwards system env vars
     
   mcp-cron:
-    command: /Users/prateek.k/.nvm/versions/node/v26.3.0/bin/npx
+    command: npx
     args:
     - -y
     - mcp-cron
