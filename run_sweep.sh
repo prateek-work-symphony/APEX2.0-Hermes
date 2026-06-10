@@ -5,6 +5,7 @@ echo "🚀 Booting Automated Delivery Agent..."
 rm -rf workspace-wiki
 mkdir -p workspace-wiki
 
+# Secure Authentication & Clone
 B64_PAT=$(printf "%s:%s" "" "$AZURE_DEVOPS_PAT" | base64 | tr -d '\n')
 git -c http.extraheader="AUTHORIZATION: Basic $B64_PAT" clone "https://dev.azure.com/${MOCK_ORG}/${MOCK_PROJECT}/_git/${MOCK_PROJECT}.wiki" workspace-wiki
 
@@ -38,10 +39,17 @@ You are an automated engineering delivery agent. Your output will be piped direc
 
 echo "🧠 Running Technical Audit Sweep..."
 
-# We pass the prompt via -z (silent injection). 
-# '< /dev/null' forces an immediate EOF, closing the chat session cleanly after the first response.
-hermes -z "$PROMPT" chat < /dev/null | tee -a ADO-Daily-Dump.md
+# 🌟 STEP 1: Pipe an empty string to hit 'Enter' on the onboarding prompt, outputting to a temp file
+echo "" | hermes -z "$PROMPT" chat > /tmp/hermes_raw.md
 
+# 🌟 STEP 2: Scrape out the onboarding question text and the banner text to keep your Wiki beautiful
+sed -i '/? Name of the agency/d' /tmp/hermes_raw.md
+sed -i '/Banner Bypass/d' /tmp/hermes_raw.md
+
+# 🌟 STEP 3: Append the pristine, filtered markdown output directly into your real Wiki file
+cat /tmp/hermes_raw.md >> ADO-Daily-Dump.md
+
+# Commit and Push
 git config user.name "Hermes Automated Agent"
 git config user.email "hermes-agent@automation.local"
 git add ADO-Daily-Dump.md
