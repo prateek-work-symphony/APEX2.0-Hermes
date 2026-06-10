@@ -17,10 +17,11 @@ steps:
     docker pull prateekmeherk/hermes-ado-agent:v4
     
     echo "🚀 Executing Agent Sandbox..."
-    docker run --rm \
+    docker run --rm -t \
       -e AZURE_DEVOPS_PAT="$MAPPED_PAT" \
       -e MOCK_ORG="$(MOCK_ORG)" \
       -e MOCK_PROJECT="$(MOCK_PROJECT)" \
+      -e CI="true" \
       prateekmeherk/hermes-ado-agent:v4
       
   displayName: 'Execute Embedded Hermes Delivery Agent'
