@@ -1,11 +1,12 @@
 FROM node:20-bookworm-slim
 
-# 1. Graphical dependencies for Headless Chrome (The v7 Fix)
+# 1. The FULL Graphical dependencies for Headless Chrome (No more crashes)
 RUN apt-get update && apt-get install -y \
     bash git \
     libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 \
     libcups2 libdrm2 libxkbcommon0 libxcomposite1 \
     libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2 \
+    libx11-xcb1 libxcb1 libxcursor1 libxi6 libxext6 libgtk-3-0 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g hermes-cli

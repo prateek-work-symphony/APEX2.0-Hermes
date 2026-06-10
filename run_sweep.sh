@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# Disable UI animations
+# Prevents UI animations and the cascading staircase text (v9 Fix)
 export TERM=dumb
 
 echo "🚀 Booting Automated Delivery Agent..."
@@ -12,9 +12,11 @@ mkdir -p workspace-wiki
 B64_PAT=$(printf "%s:%s" "" "$AZURE_DEVOPS_PAT" | base64 | tr -d '\n')
 git -c http.extraheader="AUTHORIZATION: Basic $B64_PAT" clone "https://dev.azure.com/${MOCK_ORG}/${MOCK_PROJECT}/_git/${MOCK_PROJECT}.wiki" workspace-wiki
 
+cd workspace-wiki
+
 # Prevent the startup banner
-mkdir -p /app/assets
-touch /app/assets/banner.txt
+mkdir -p assets
+touch assets/banner.txt
 
 PROMPT="
 You are an automated engineering delivery agent. Your output will be piped directly into a Markdown file. 
@@ -39,16 +41,20 @@ You are an automated engineering delivery agent. Your output will be piped direc
 - Provide a quick 1-sentence evaluation on whether these new stories are targeting the current sprint.
 "
 
-echo "🧠 Running Technical Audit Sweep..."
+# 🌟 THE V13 FIX: The "Dummy Run"
+echo "⚙️ Satisfying CLI Setup Wizard..."
+# We pipe the Enter key to bypass the Agency wizard, and send ALL output to the void 
+# so the wizard text never touches your markdown file.
+echo "" | hermes -z "init" chat > /dev/null 2>&1 || true
 
-# 🌟 THE V9 + V7 FIX: Pipe the Enter key to bypass the wizard, 
-# and write the file to the system /tmp/ folder to avoid all Permission errors.
-echo "" | hermes -z "$PROMPT" chat > /tmp/Daily-Audit-Report.md
+echo "🧠 Running Technical Audit Sweep..."
+# Now that the wizard is satisfied for this directory, we run the actual prompt.
+# We use < /dev/null to prevent hanging, and output to /tmp/ to bypass Git read locks.
+hermes -z "$PROMPT" chat < /dev/null > /tmp/Daily-Audit-Report.md
 
 # Copy the safe file into the Git repository
-cp /tmp/Daily-Audit-Report.md workspace-wiki/Daily-Audit-Report.md
+cp /tmp/Daily-Audit-Report.md Daily-Audit-Report.md
 
-cd workspace-wiki
 git config user.name "Hermes Automated Agent"
 git config user.email "hermes-agent@automation.local"
 git add Daily-Audit-Report.md
