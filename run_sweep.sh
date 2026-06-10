@@ -1,10 +1,14 @@
 #!/bin/bash
 set -e
 
+# 🌟 Guarantee no UI animations or staircase formatting
+export TERM=dumb
+
 echo "🚀 Booting Automated Delivery Agent..."
 rm -rf workspace-wiki
 mkdir -p workspace-wiki
 
+# Secure Authentication & Clone
 B64_PAT=$(printf "%s:%s" "" "$AZURE_DEVOPS_PAT" | base64 | tr -d '\n')
 git -c http.extraheader="AUTHORIZATION: Basic $B64_PAT" clone "https://dev.azure.com/${MOCK_ORG}/${MOCK_PROJECT}/_git/${MOCK_PROJECT}.wiki" workspace-wiki
 
@@ -12,7 +16,7 @@ cd workspace-wiki
 mkdir -p assets
 echo "Banner Bypass" > assets/banner.txt
 
-# --- THE GUARDRAILED PROMPT ---
+# --- THE PROMPT ---
 PROMPT="
 You are an automated engineering delivery agent. Your output will be piped directly into a Markdown file. 
 
@@ -38,8 +42,8 @@ You are an automated engineering delivery agent. Your output will be piped direc
 
 echo "🧠 Running Technical Audit Sweep..."
 
-# We pass the prompt via -z (silent injection). 
-# '< /dev/null' forces an immediate EOF, closing the chat session cleanly after the first response.
+# We execute cleanly. Because the agent was pre-initialized during Docker build, 
+# it will skip the setup wizard, process the prompt, and gracefully shut down.
 hermes -z "$PROMPT" chat < /dev/null | tee -a ADO-Daily-Dump.md
 
 git config user.name "Hermes Automated Agent"
