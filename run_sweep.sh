@@ -1,8 +1,9 @@
 #!/bin/bash
 set -e
 
-# Prevents UI animations and the cascading staircase text (v9 Fix)
+# Disable UI animations and prevent Git from hanging on invisible password prompts
 export TERM=dumb
+export GIT_TERMINAL_PROMPT=0
 
 echo "🚀 Booting Automated Delivery Agent..."
 rm -rf workspace-wiki
@@ -13,8 +14,6 @@ B64_PAT=$(printf "%s:%s" "" "$AZURE_DEVOPS_PAT" | base64 | tr -d '\n')
 git -c http.extraheader="AUTHORIZATION: Basic $B64_PAT" clone "https://dev.azure.com/${MOCK_ORG}/${MOCK_PROJECT}/_git/${MOCK_PROJECT}.wiki" workspace-wiki
 
 cd workspace-wiki
-
-# Prevent the startup banner
 mkdir -p assets
 touch assets/banner.txt
 
@@ -41,18 +40,12 @@ You are an automated engineering delivery agent. Your output will be piped direc
 - Provide a quick 1-sentence evaluation on whether these new stories are targeting the current sprint.
 "
 
-# 🌟 THE V13 FIX: The "Dummy Run"
 echo "⚙️ Satisfying CLI Setup Wizard..."
-# We pipe the Enter key to bypass the Agency wizard, and send ALL output to the void 
-# so the wizard text never touches your markdown file.
 echo "" | hermes -z "init" chat > /dev/null 2>&1 || true
 
 echo "🧠 Running Technical Audit Sweep..."
-# Now that the wizard is satisfied for this directory, we run the actual prompt.
-# We use < /dev/null to prevent hanging, and output to /tmp/ to bypass Git read locks.
 hermes -z "$PROMPT" chat < /dev/null > /tmp/Daily-Audit-Report.md
 
-# Copy the safe file into the Git repository
 cp /tmp/Daily-Audit-Report.md Daily-Audit-Report.md
 
 git config user.name "Hermes Automated Agent"
@@ -63,5 +56,9 @@ if git diff --staged --quiet; then
     echo "🎯 No changes detected. Wiki remains up to date."
 else
     git commit -m "🤖 Automated Daily Audit Sweep - $(date)"
+    echo "🚀 Pushing update to Azure DevOps Wiki..."
     git -c http.extraheader="AUTHORIZATION: Basic $B64_PAT" push origin HEAD
 fi
+
+echo "✅ Audit completed successfully. Shutting down container."
+exit 0
