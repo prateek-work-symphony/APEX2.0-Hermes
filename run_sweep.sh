@@ -18,15 +18,10 @@ You are an automated engineering delivery agent. Your output will be piped direc
 
 1. Use your Azure DevOps MCP tool to search for all 'User Story' items in project '${MOCK_PROJECT}' created in the last 7 days.
 
-🚨 ESCAPE HATCH: If your search returns 0 results, you MUST NOT invent or hallucinate data. You must output EXACTLY and ONLY this sentence: '🎯 No new user stories detected in the last 7 days.' Do not add anything else.
-
-2. If stories ARE found, format the data using the layout below. 
-
-🚨 STRICT FORMATTING RULES:
-- Output ONLY the raw Markdown.
-- Do NOT output your internal thought process.
-- Do NOT include any conversational filler (e.g., 'Here is the data', 'Sure!').
-- Do NOT wrap the output in markdown code blocks (\`\`\`markdown).
+🚨 STRICT OPERATING RULES:
+- DO NOT use any browser, web_extract, or search tools. Only use the Azure DevOps MCP tool.
+- If your search returns 0 results, output EXACTLY and ONLY: '🎯 No new user stories detected in the last 7 days.'
+- Output ONLY the raw Markdown. No code blocks (\`\`\`markdown), no conversational filler, and no internal thoughts.
 
 ---
 ## 🛠️ ${MOCK_PROJECT} New Story Technical Audit — [Insert Current Local Date/Time]
@@ -42,8 +37,10 @@ You are an automated engineering delivery agent. Your output will be piped direc
 "
 
 echo "🧠 Running Technical Audit Sweep..."
-# Execute the agent and pipe only the final clean output
-hermes chat <<< "$PROMPT" >> ADO-Daily-Dump.md
+
+# We pass the prompt via -z (silent injection). 
+# '< /dev/null' forces an immediate EOF, closing the chat session cleanly after the first response.
+hermes -z "$PROMPT" chat < /dev/null | tee -a ADO-Daily-Dump.md
 
 git config user.name "Hermes Automated Agent"
 git config user.email "hermes-agent@automation.local"
