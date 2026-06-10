@@ -49,7 +49,7 @@ You are an automated engineering delivery agent.
 
 # 6. Run Hermes
 echo "🧠 Running Technical Audit Sweep..."
-hermes -z "$PROMPT" chat >> ADO-Daily-Dump.md
+hermes chat <<< "$PROMPT" | tee -a ADO-Daily-Dump.md
 
 # 7. Commit and Push
 git config user.name "Hermes Automated Agent"
