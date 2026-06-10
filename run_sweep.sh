@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e
 
-# 🌟 Universal kill-switch for CLI animations and UI redrawing
-export TERM=dumb
-
 echo "🚀 Booting Automated Delivery Agent..."
 rm -rf workspace-wiki
 mkdir -p workspace-wiki
@@ -15,6 +12,7 @@ cd workspace-wiki
 mkdir -p assets
 echo "Banner Bypass" > assets/banner.txt
 
+# --- THE GUARDRAILED PROMPT ---
 PROMPT="
 You are an automated engineering delivery agent. Your output will be piped directly into a Markdown file. 
 
@@ -40,10 +38,9 @@ You are an automated engineering delivery agent. Your output will be piped direc
 
 echo "🧠 Running Technical Audit Sweep..."
 
-# 🌟 THE ENTER-KEY PIPE
-# We pipe a single blank line (Enter key) to satisfy the "Agency Name" prompt.
-# We restore 'chat' and '-z' to run the agent cleanly in the dumb terminal.
-echo "" | hermes -z "$PROMPT" chat >> ADO-Daily-Dump.md
+# We pass the prompt via -z (silent injection). 
+# '< /dev/null' forces an immediate EOF, closing the chat session cleanly after the first response.
+hermes -z "$PROMPT" chat < /dev/null | tee -a ADO-Daily-Dump.md
 
 git config user.name "Hermes Automated Agent"
 git config user.email "hermes-agent@automation.local"
