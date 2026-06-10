@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# 🌟 Guarantee no UI animations or staircase formatting
+# Disable all UI animations to guarantee clean Markdown formatting
 export TERM=dumb
 
 echo "🚀 Booting Automated Delivery Agent..."
@@ -12,11 +12,10 @@ mkdir -p workspace-wiki
 B64_PAT=$(printf "%s:%s" "" "$AZURE_DEVOPS_PAT" | base64 | tr -d '\n')
 git -c http.extraheader="AUTHORIZATION: Basic $B64_PAT" clone "https://dev.azure.com/${MOCK_ORG}/${MOCK_PROJECT}/_git/${MOCK_PROJECT}.wiki" workspace-wiki
 
-cd workspace-wiki
+# 🌟 THE FIX: Create a completely empty banner file so nothing prints to the terminal
 mkdir -p assets
-echo "Banner Bypass" > assets/banner.txt
+touch assets/banner.txt
 
-# --- THE PROMPT ---
 PROMPT="
 You are an automated engineering delivery agent. Your output will be piped directly into a Markdown file. 
 
@@ -42,13 +41,17 @@ You are an automated engineering delivery agent. Your output will be piped direc
 
 echo "🧠 Running Technical Audit Sweep..."
 
-# We execute cleanly. Because the agent was pre-initialized during Docker build, 
-# it will skip the setup wizard, process the prompt, and gracefully shut down.
-hermes -z "$PROMPT" chat < /dev/null | tee -a ADO-Daily-Dump.md
+# 1. Execute Hermes in /app (where it is pre-configured) and write to a BRAND NEW filename
+hermes -z "$PROMPT" chat < /dev/null > Daily-Audit-Report.md
 
+# 2. Force-copy the new report into the Git repository (bypassing any read-only locks)
+cp -f Daily-Audit-Report.md workspace-wiki/Daily-Audit-Report.md
+
+# 3. Step into the repo, commit, and push
+cd workspace-wiki
 git config user.name "Hermes Automated Agent"
 git config user.email "hermes-agent@automation.local"
-git add ADO-Daily-Dump.md
+git add Daily-Audit-Report.md
 
 if git diff --staged --quiet; then
     echo "🎯 No changes detected. Wiki remains up to date."
