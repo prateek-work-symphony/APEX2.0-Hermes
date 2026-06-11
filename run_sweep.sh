@@ -1,20 +1,15 @@
 #!/bin/bash
 set -e
 
-# 🌟 FIX 1: Provide a real terminal so Inquirer.js never crashes
 export TERM=xterm-256color
 export GIT_TERMINAL_PROMPT=0
 
-# 🌟 FIX 2: Copy the config to the current user's actual Home directory.
-# This permanently prevents the Hermes CLI Wizard from ever triggering.
-mkdir -p ~/.hermes
-cp /opt/hermes/config.yaml ~/.hermes/config.yaml 2>/dev/null || true
-
-# Prevent the Banner missing crash
-mkdir -p ~/assets
-touch ~/assets/banner.txt
-mkdir -p assets
-touch assets/banner.txt
+# 🌟 THE V29 FIX: The Universal Home Override
+# Azure DevOps forces the 'vsts' user, breaking Node's homedir resolution.
+# We force Node to use a 100% writable temp folder so the config NEVER fails.
+export HOME=/tmp/safe_home
+mkdir -p $HOME/.hermes
+cp /opt/hermes/config.yaml $HOME/.hermes/config.yaml
 
 echo "🚀 Booting Automated Delivery Agent..."
 rm -rf workspace-wiki
@@ -56,24 +51,21 @@ You are an automated engineering delivery agent.
 
 echo "🧠 Running Technical Audit Sweep..."
 
-# 🌟 FIX 3: The True Ghost Terminal
-# '-noecho' ensures the PROMPT variable isn't printed to the dump, preventing extraction errors.
+# We keep Expect running with a 2-second delay just in case of UI hiccups,
+# but because the config is perfectly loaded, the wizard will not trigger.
 expect -c '
 set timeout 150
 spawn -noecho hermes -z $env(PROMPT) chat
 expect {
-    "Name of the agency" { sleep 1; send "\r"; exp_continue }
-    "Select a state" { sleep 1; send "\r"; exp_continue }
+    "Name of the agency" { sleep 2; send "\r"; exp_continue }
+    "Select a state" { sleep 2; send "\r"; exp_continue }
     timeout { exit 0 }
     eof { exit 0 }
 }
 ' > /tmp/raw_dump_ansi.md 2>&1
 
-# 🌟 FIX 4: The ANSI Stripper
-# Because we used a real terminal, we mathematically strip any hidden color codes
 sed -E 's/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g' /tmp/raw_dump_ansi.md > /tmp/raw_dump.md
 
-# 🌟 FIX 5: The Flawless Extraction
 sed -n '/\[START_REPORT\]/,/\[END_REPORT\]/p' /tmp/raw_dump.md | sed '1d;$d' > /tmp/Daily-Audit-Report.md
 
 if [ ! -s /tmp/Daily-Audit-Report.md ]; then

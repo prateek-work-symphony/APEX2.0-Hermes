@@ -25,8 +25,10 @@ RUN mkdir -p /opt/hermes && chmod 777 /opt/hermes
 COPY config.yaml /opt/hermes/config.yaml
 RUN chmod 666 /opt/hermes/config.yaml
 
+# 5. Establish Workspace with Universal Permissions
 WORKDIR /app
+RUN mkdir -p /app/assets && touch /app/assets/banner.txt
 COPY run_sweep.sh /app/run_sweep.sh
-RUN chmod +x /app/run_sweep.sh
+RUN chmod +x /app/run_sweep.sh && chmod -R 777 /app
 
 ENTRYPOINT ["/bin/bash", "/app/run_sweep.sh"]
