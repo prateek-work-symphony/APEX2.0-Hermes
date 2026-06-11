@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     libcups2 libdrm2 libxkbcommon0 libxcomposite1 \
     libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2 \
     libx11-xcb1 libxcb1 libxcursor1 libxi6 libxext6 libgtk-3-0 \
+    libxss1 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g hermes-cli
