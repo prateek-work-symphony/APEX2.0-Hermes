@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-# Disable UI animations and prevent Git from hanging
 export TERM=dumb
 export GIT_TERMINAL_PROMPT=0
 
@@ -42,15 +41,12 @@ You are an automated engineering delivery agent. Your output will be piped direc
 
 echo "🧠 Running Technical Audit Sweep..."
 
-# 🌟 THE V19 FIX: Hold the input stream open for 120 seconds to prevent the 130 crash.
-# We add '2>&1' to capture ALL outputs (STDOUT and STDERR) into the dump.
-# We restore '|| true' so if it DOES crash, Bash continues to the failsafe check!
-(echo ""; sleep 120) | hermes -z "$PROMPT" chat > /tmp/raw_dump.md 2>&1 || true
+# 🌟 THE V20 FIX: Feed 5 Enters to silence all wizard questions, 
+# then hold open for 120s to allow async MCP browser downloads to finish!
+(printf '\n\n\n\n\n'; sleep 120) | hermes -z "$PROMPT" chat > /tmp/raw_dump.md 2>&1 || true
 
-# Extract only the markdown portion
 sed -n '/---/,$p' /tmp/raw_dump.md > /tmp/Daily-Audit-Report.md
 
-# 🌟 THE FAILSAFE: If the extraction is empty, print the ENTIRE internal log and fail cleanly
 if [ ! -s /tmp/Daily-Audit-Report.md ]; then
     echo "❌ FATAL: The extracted Markdown file is completely empty. Printing raw dump for debugging:"
     cat /tmp/raw_dump.md

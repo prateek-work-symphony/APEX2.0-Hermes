@@ -1,6 +1,6 @@
 FROM node:20-bookworm-slim
 
-# 1. The FULL Graphical dependencies for Headless Chrome
+# 1. Install Chrome graphical dependencies
 RUN apt-get update && apt-get install -y \
     bash git \
     libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 \
@@ -10,23 +10,19 @@ RUN apt-get update && apt-get install -y \
     libxss1 \
     && rm -rf /var/lib/apt/lists/*
 
-# 2. Install Hermes CLI globally
+# 2. Install Hermes CLI globally (Must be done as root)
 RUN npm install -g hermes-cli
 
-# 🌟 3. THE V18 FIX: The Chrome Sandbox Bypass Wrapper
-# This dynamically locates the Chrome executable downloaded by Puppeteer,
-# renames it, and slots in a bash wrapper that forces the --no-sandbox flag.
-RUN CHROME_PATH=$(find /usr/local/lib/node_modules/hermes-cli -path "*/puppeteer/.local-chromium/*/chrome-linux/chrome" -type f | head -n 1) && \
-    mv "$CHROME_PATH" "$CHROME_PATH-orig" && \
-    printf '#!/bin/bash\nexec "%s-orig" --no-sandbox "$@"\n' "$CHROME_PATH" > "$CHROME_PATH" && \
-    chmod +x "$CHROME_PATH"
+# 🌟 3. THE V20 FIX: Switch to the non-root 'node' user. 
+# This permanently disables the Chrome "Running as root" panic for ALL tools.
+USER node
 
-# 4. Establish Workspace
-RUN mkdir -p /root/.hermes
-COPY config.yaml /root/.hermes/config.yaml
+# 4. Setup internal workspace permissions for the node user
+RUN mkdir -p /home/node/.hermes
+COPY --chown=node:node config.yaml /home/node/.hermes/config.yaml
 
-WORKDIR /app
-COPY run_sweep.sh /app/run_sweep.sh
-RUN chmod +x /app/run_sweep.sh
+WORKDIR /home/node/app
+COPY --chown=node:node run_sweep.sh /home/node/app/run_sweep.sh
+RUN chmod +x /home/node/app/run_sweep.sh
 
-ENTRYPOINT ["/bin/bash", "/app/run_sweep.sh"]
+ENTRYPOINT ["/bin/bash", "/home/node/app/run_sweep.sh"]
