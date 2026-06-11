@@ -41,8 +41,8 @@ You are an automated engineering delivery agent. Your output will be piped direc
 
 echo "🧠 Running Technical Audit Sweep..."
 
-# 🌟 THE V20 FIX: Feed 5 Enters to silence all wizard questions, 
-# then hold open for 120s to allow async MCP browser downloads to finish!
+# The burst of 5 Enter keys instantly clears any internal CLI wizards, 
+# and the 120s sleep gives the LLM runway to fetch data.
 (printf '\n\n\n\n\n'; sleep 120) | hermes -z "$PROMPT" chat > /tmp/raw_dump.md 2>&1 || true
 
 sed -n '/---/,$p' /tmp/raw_dump.md > /tmp/Daily-Audit-Report.md
