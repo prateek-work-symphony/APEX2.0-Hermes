@@ -12,8 +12,11 @@ mkdir -p workspace-wiki
 B64_MOCK_PAT=$(printf "%s:%s" "" "$MOCK_PAT" | base64 | tr -d '\n')
 git -c http.extraheader="AUTHORIZATION: Basic $B64_MOCK_PAT" clone "https://dev.azure.com/${MOCK_ORG}/${MOCK_PROJECT}/_git/${MOCK_PROJECT}.wiki" workspace-wiki
 
+# 🌟 THE FIX: Create the dummy banner file in the /app root BEFORE Hermes executes!
+mkdir -p /app/assets
+touch /app/assets/banner.txt
+
 # 🌟 IDENTITY 2: Authenticate the MCP Tool with the COMPANY_PAT (Company Account)
-# The MCP tool natively searches for the AZURE_DEVOPS_PAT variable.
 export AZURE_DEVOPS_PAT="$COMPANY_PAT"
 
 PROMPT="
@@ -63,19 +66,16 @@ echo "✅ Audit generated successfully. Pushing to Mock Wiki..."
 cp /tmp/Daily-Audit-Report.md workspace-wiki/Daily-Audit-Report.md
 cd workspace-wiki
 
-mkdir -p assets
-touch assets/banner.txt
-
 git config user.name "Hermes Automated Agent"
 git config user.email "hermes-agent@automation.local"
-git add Daily-Audit-Report.md assets/banner.txt
+git add Daily-Audit-Report.md
 
 if git diff --staged --quiet; then
     echo "🎯 No changes detected. Wiki remains up to date."
 else
     git commit -m "🤖 Automated Prod-to-Mock Audit Sweep - $(date)"
     echo "🚀 Pushing update to Azure DevOps Mock Wiki..."
-    # 🌟 IDENTITY 1: Push using the Mock PAT again
+    # 🌟 Push back using the Personal Mock PAT
     git -c http.extraheader="AUTHORIZATION: Basic $B64_MOCK_PAT" push origin HEAD
 fi
 
