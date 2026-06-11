@@ -1,6 +1,6 @@
 FROM node:20-bookworm-slim
 
-# 1. The FULL Graphical dependencies for Headless Chrome (No more crashes)
+# 1. The FULL Graphical dependencies for Headless Chrome
 RUN apt-get update && apt-get install -y \
     bash git \
     libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 \
@@ -10,7 +10,18 @@ RUN apt-get update && apt-get install -y \
     libxss1 \
     && rm -rf /var/lib/apt/lists/*
 
+# 2. Install Hermes CLI globally
 RUN npm install -g hermes-cli
+
+# 🌟 3. THE V18 FIX: The Chrome Sandbox Bypass Wrapper
+# This dynamically locates the Chrome executable downloaded by Puppeteer,
+# renames it, and slots in a bash wrapper that forces the --no-sandbox flag.
+RUN CHROME_PATH=$(find /usr/local/lib/node_modules/hermes-cli -path "*/puppeteer/.local-chromium/*/chrome-linux/chrome" -type f | head -n 1) && \
+    mv "$CHROME_PATH" "$CHROME_PATH-orig" && \
+    printf '#!/bin/bash\nexec "%s-orig" --no-sandbox "$@"\n' "$CHROME_PATH" > "$CHROME_PATH" && \
+    chmod +x "$CHROME_PATH"
+
+# 4. Establish Workspace
 RUN mkdir -p /root/.hermes
 COPY config.yaml /root/.hermes/config.yaml
 
