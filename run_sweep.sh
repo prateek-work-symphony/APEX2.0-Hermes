@@ -1,22 +1,30 @@
 #!/bin/bash
 set -e
 
-export TERM=dumb
+# 🌟 FIX 1: Provide a real terminal so Inquirer.js never crashes
+export TERM=xterm-256color
 export GIT_TERMINAL_PROMPT=0
+
+# 🌟 FIX 2: Copy the config to the current user's actual Home directory.
+# This permanently prevents the Hermes CLI Wizard from ever triggering.
+mkdir -p ~/.hermes
+cp /opt/hermes/config.yaml ~/.hermes/config.yaml 2>/dev/null || true
+
+# Prevent the Banner missing crash
+mkdir -p ~/assets
+touch ~/assets/banner.txt
+mkdir -p assets
+touch assets/banner.txt
 
 echo "🚀 Booting Automated Delivery Agent..."
 rm -rf workspace-wiki
 mkdir -p workspace-wiki
 
-# 🌟 IDENTITY 1: Authenticate Git with the MOCK_PAT
+# Authenticate Git with the MOCK_PAT
 B64_MOCK_PAT=$(printf "%s:%s" "" "$MOCK_PAT" | base64 | tr -d '\n')
 git -c http.extraheader="AUTHORIZATION: Basic $B64_MOCK_PAT" clone "https://dev.azure.com/${MOCK_ORG}/${MOCK_PROJECT}/_git/${MOCK_PROJECT}.wiki" workspace-wiki
 
-# Prevent the banner crash
-mkdir -p /app/assets
-touch /app/assets/banner.txt
-
-# 🌟 IDENTITY 2: Authenticate the MCP Tool with the COMPANY_PAT
+# Authenticate the MCP Tool with the COMPANY_PAT
 export AZURE_DEVOPS_PAT="$COMPANY_PAT"
 
 export PROMPT="
@@ -26,10 +34,12 @@ You are an automated engineering delivery agent.
 
 🚨 STRICT OPERATING RULES:
 - DO NOT use any browser, web_extract, or search tools. Only use the Azure DevOps MCP tool.
-- You MUST begin your final output with exactly this delimiter on its own line:
----BEGIN_REPORT---
-- If your search returns 0 results, output EXACTLY and ONLY: '🎯 No new production items detected in the last 7 days.' below the delimiter.
-- Output ONLY the raw Markdown. No code blocks (\`\`\`markdown), no conversational filler, and no internal thoughts.
+- You MUST wrap your final markdown report exactly within these tags on their own lines:
+[START_REPORT]
+<Your raw markdown goes here>
+[END_REPORT]
+- If your search returns 0 results, output EXACTLY and ONLY: '🎯 No new production items detected in the last 7 days.' between the tags.
+- Output ONLY the raw Markdown. No code blocks (\`\`\`markdown).
 
 ---
 ## 🛠️ ${COMPANY_PROJECT} Production Audit (Synced: [Insert Local Date])
@@ -46,21 +56,25 @@ You are an automated engineering delivery agent.
 
 echo "🧠 Running Technical Audit Sweep..."
 
-# 🌟 THE V27 FIX: The Expect Ghost Terminal
-# This spawns a true pseudo-terminal, natively bypassing all Inquirer List blocks.
-# It gives the LLM 150 seconds to write the report, then exits cleanly.
+# 🌟 FIX 3: The True Ghost Terminal
+# '-noecho' ensures the PROMPT variable isn't printed to the dump, preventing extraction errors.
 expect -c '
 set timeout 150
-spawn hermes -z $env(PROMPT) chat
+spawn -noecho hermes -z $env(PROMPT) chat
 expect {
-    "Name of the agency" { send "\r"; exp_continue }
-    "Select a state" { send "\r"; exp_continue }
+    "Name of the agency" { sleep 1; send "\r"; exp_continue }
+    "Select a state" { sleep 1; send "\r"; exp_continue }
     timeout { exit 0 }
     eof { exit 0 }
 }
-' > /tmp/raw_dump.md 2>&1
+' > /tmp/raw_dump_ansi.md 2>&1
 
-sed -n '/---BEGIN_REPORT---/,$p' /tmp/raw_dump.md | sed '1d' > /tmp/Daily-Audit-Report.md
+# 🌟 FIX 4: The ANSI Stripper
+# Because we used a real terminal, we mathematically strip any hidden color codes
+sed -E 's/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g' /tmp/raw_dump_ansi.md > /tmp/raw_dump.md
+
+# 🌟 FIX 5: The Flawless Extraction
+sed -n '/\[START_REPORT\]/,/\[END_REPORT\]/p' /tmp/raw_dump.md | sed '1d;$d' > /tmp/Daily-Audit-Report.md
 
 if [ ! -s /tmp/Daily-Audit-Report.md ]; then
     echo "❌ FATAL: The extracted Markdown file is completely empty. Printing raw dump for debugging:"

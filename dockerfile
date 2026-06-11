@@ -1,6 +1,6 @@
 FROM node:20-bookworm-slim
 
-# 1. Install System Chromium, graphical dependencies, and EXPECT (The v27 Fix)
+# 1. Install System Chromium, graphical dependencies, and EXPECT
 RUN apt-get update && apt-get install -y \
     bash git chromium expect \
     libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 \
@@ -19,10 +19,11 @@ RUN mv /usr/bin/chromium /usr/bin/chromium-orig && \
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
-# 4. Install Hermes and establish workspace
+# 4. Install Hermes and setup the Public Config Folder
 RUN npm install -g hermes-cli
-RUN mkdir -p /root/.hermes
-COPY config.yaml /root/.hermes/config.yaml
+RUN mkdir -p /opt/hermes && chmod 777 /opt/hermes
+COPY config.yaml /opt/hermes/config.yaml
+RUN chmod 666 /opt/hermes/config.yaml
 
 WORKDIR /app
 COPY run_sweep.sh /app/run_sweep.sh
