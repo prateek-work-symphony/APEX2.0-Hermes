@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# Disable UI animations and prevent Git from hanging on invisible password prompts
+# Disable UI animations and prevent Git from hanging
 export TERM=dumb
 export GIT_TERMINAL_PROMPT=0
 
@@ -42,14 +42,19 @@ You are an automated engineering delivery agent. Your output will be piped direc
 
 echo "🧠 Running Technical Audit Sweep..."
 
-# 🌟 FIX 1: The Infinite Enter Key
-# 'yes ""' answers all hidden setup wizards instantly, preventing the 130 crash.
-yes "" | hermes -z "$PROMPT" chat > /tmp/raw_dump.md || true
+# 🌟 FIX 1: A single Enter key (No infinite 'yes' loops). 
+# We removed '|| true' so real crashes are caught.
+echo "" | hermes -z "$PROMPT" chat > /tmp/raw_dump.md
 
-# 🌟 FIX 2: The Markdown Extractor
-# 'sed' scans the raw dump and extracts ONLY the content starting from '---' to the bottom.
-# This permanently deletes the "Agency Name" questions from the final file!
-sed -n '/^---$/,$p' /tmp/raw_dump.md > /tmp/Daily-Audit-Report.md
+# 🌟 FIX 2: A slightly more forgiving sed extraction
+sed -n '/---/,$p' /tmp/raw_dump.md > /tmp/Daily-Audit-Report.md
+
+# 🌟 FIX 3: The strict file-size validation check
+if [ ! -s /tmp/Daily-Audit-Report.md ]; then
+    echo "❌ FATAL: The extracted Markdown file is completely empty. Printing raw dump for debugging:"
+    cat /tmp/raw_dump.md
+    exit 1
+fi
 
 cp /tmp/Daily-Audit-Report.md Daily-Audit-Report.md
 
