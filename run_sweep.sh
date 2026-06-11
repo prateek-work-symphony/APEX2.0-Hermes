@@ -42,14 +42,15 @@ You are an automated engineering delivery agent. Your output will be piped direc
 
 echo "🧠 Running Technical Audit Sweep..."
 
-# 🌟 FIX 1: A single Enter key (No infinite 'yes' loops). 
-# We removed '|| true' so real crashes are caught.
-echo "" | hermes -z "$PROMPT" chat > /tmp/raw_dump.md
+# 🌟 THE V19 FIX: Hold the input stream open for 120 seconds to prevent the 130 crash.
+# We add '2>&1' to capture ALL outputs (STDOUT and STDERR) into the dump.
+# We restore '|| true' so if it DOES crash, Bash continues to the failsafe check!
+(echo ""; sleep 120) | hermes -z "$PROMPT" chat > /tmp/raw_dump.md 2>&1 || true
 
-# 🌟 FIX 2: A slightly more forgiving sed extraction
+# Extract only the markdown portion
 sed -n '/---/,$p' /tmp/raw_dump.md > /tmp/Daily-Audit-Report.md
 
-# 🌟 FIX 3: The strict file-size validation check
+# 🌟 THE FAILSAFE: If the extraction is empty, print the ENTIRE internal log and fail cleanly
 if [ ! -s /tmp/Daily-Audit-Report.md ]; then
     echo "❌ FATAL: The extracted Markdown file is completely empty. Printing raw dump for debugging:"
     cat /tmp/raw_dump.md
