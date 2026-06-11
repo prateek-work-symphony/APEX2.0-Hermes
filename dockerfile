@@ -1,8 +1,8 @@
 FROM node:20-bookworm-slim
 
-# 1. Install System Chromium and all graphical dependencies
+# 1. Install System Chromium, graphical dependencies, and EXPECT (The v27 Fix)
 RUN apt-get update && apt-get install -y \
-    bash git chromium \
+    bash git chromium expect \
     libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 \
     libcups2 libdrm2 libxkbcommon0 libxcomposite1 \
     libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2 \
@@ -10,14 +10,12 @@ RUN apt-get update && apt-get install -y \
     libxss1 \
     && rm -rf /var/lib/apt/lists/*
 
-# 🌟 2. THE V21 FIX: Universal Chromium Sandbox Bypass
-# We rename the system Chromium and replace it with a bash script 
-# that permanently injects --no-sandbox into every browser launch.
+# 2. Universal Chromium Sandbox Bypass
 RUN mv /usr/bin/chromium /usr/bin/chromium-orig && \
     printf '#!/bin/bash\nexec /usr/bin/chromium-orig --no-sandbox "$@"\n' > /usr/bin/chromium && \
     chmod +x /usr/bin/chromium
 
-# 🌟 3. Force ALL agent tools to use our safe system browser
+# 3. Force ALL agent tools to use our safe system browser
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 

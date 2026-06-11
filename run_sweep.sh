@@ -8,18 +8,18 @@ echo "🚀 Booting Automated Delivery Agent..."
 rm -rf workspace-wiki
 mkdir -p workspace-wiki
 
-# 🌟 IDENTITY 1: Authenticate Git with the MOCK_PAT (Personal Account)
+# 🌟 IDENTITY 1: Authenticate Git with the MOCK_PAT
 B64_MOCK_PAT=$(printf "%s:%s" "" "$MOCK_PAT" | base64 | tr -d '\n')
 git -c http.extraheader="AUTHORIZATION: Basic $B64_MOCK_PAT" clone "https://dev.azure.com/${MOCK_ORG}/${MOCK_PROJECT}/_git/${MOCK_PROJECT}.wiki" workspace-wiki
 
-# 🌟 THE FIX: Create the dummy banner file in the /app root BEFORE Hermes executes!
+# Prevent the banner crash
 mkdir -p /app/assets
 touch /app/assets/banner.txt
 
-# 🌟 IDENTITY 2: Authenticate the MCP Tool with the COMPANY_PAT (Company Account)
+# 🌟 IDENTITY 2: Authenticate the MCP Tool with the COMPANY_PAT
 export AZURE_DEVOPS_PAT="$COMPANY_PAT"
 
-PROMPT="
+export PROMPT="
 You are an automated engineering delivery agent.
 
 1. Use your Azure DevOps MCP tool to search for all 'User Story', 'Task', and 'Bug' items in project '${COMPANY_PROJECT}' within organization '${COMPANY_ORG}' created or updated in the last 7 days.
@@ -46,12 +46,19 @@ You are an automated engineering delivery agent.
 
 echo "🧠 Running Technical Audit Sweep..."
 
-(
-    sleep 2; echo ""
-    sleep 2; echo ""
-    sleep 2; echo ""
-    sleep 120
-) | hermes -z "$PROMPT" chat > /tmp/raw_dump.md 2>&1 || true
+# 🌟 THE V27 FIX: The Expect Ghost Terminal
+# This spawns a true pseudo-terminal, natively bypassing all Inquirer List blocks.
+# It gives the LLM 150 seconds to write the report, then exits cleanly.
+expect -c '
+set timeout 150
+spawn hermes -z $env(PROMPT) chat
+expect {
+    "Name of the agency" { send "\r"; exp_continue }
+    "Select a state" { send "\r"; exp_continue }
+    timeout { exit 0 }
+    eof { exit 0 }
+}
+' > /tmp/raw_dump.md 2>&1
 
 sed -n '/---BEGIN_REPORT---/,$p' /tmp/raw_dump.md | sed '1d' > /tmp/Daily-Audit-Report.md
 
@@ -75,7 +82,6 @@ if git diff --staged --quiet; then
 else
     git commit -m "🤖 Automated Prod-to-Mock Audit Sweep - $(date)"
     echo "🚀 Pushing update to Azure DevOps Mock Wiki..."
-    # 🌟 Push back using the Personal Mock PAT
     git -c http.extraheader="AUTHORIZATION: Basic $B64_MOCK_PAT" push origin HEAD
 fi
 
