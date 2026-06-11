@@ -17,13 +17,15 @@ mkdir -p assets
 touch assets/banner.txt
 
 PROMPT="
-You are an automated engineering delivery agent. Your output will be piped directly into a Markdown file. 
+You are an automated engineering delivery agent.
 
-1. Use your Azure DevOps MCP tool to search for all 'User Story' items in project '${MOCK_PROJECT}' created in the last 7 days.
+1. Use your Azure DevOps MCP tool to search for all 'User Story' items in project '${MOCK_PROJECT}' created in the last 14 days.
 
 🚨 STRICT OPERATING RULES:
 - DO NOT use any browser, web_extract, or search tools. Only use the Azure DevOps MCP tool.
-- If your search returns 0 results, output EXACTLY and ONLY: '🎯 No new user stories detected in the last 7 days.'
+- You MUST begin your final output with exactly this delimiter on its own line:
+---BEGIN_REPORT---
+- If your search returns 0 results, output EXACTLY and ONLY: '🎯 No new user stories detected in the last 14 days.' below the delimiter.
 - Output ONLY the raw Markdown. No code blocks (\`\`\`markdown), no conversational filler, and no internal thoughts.
 
 ---
@@ -41,11 +43,20 @@ You are an automated engineering delivery agent. Your output will be piped direc
 
 echo "🧠 Running Technical Audit Sweep..."
 
-# The burst of 5 Enter keys instantly clears any internal CLI wizards, 
-# and the 120s sleep gives the LLM runway to fetch data.
-(printf '\n\n\n\n\n'; sleep 120) | hermes -z "$PROMPT" chat > /tmp/raw_dump.md 2>&1 || true
+# 🌟 FIX 1: The "Trickle Pipe"
+# We pause for 2 seconds between each 'Enter' key. This ensures the CLI has time 
+# to render the next question before we send the keystroke, bypassing the buffer flush.
+(
+    sleep 2; echo ""
+    sleep 2; echo ""
+    sleep 2; echo ""
+    sleep 120
+) | hermes -z "$PROMPT" chat > /tmp/raw_dump.md 2>&1 || true
 
-sed -n '/---/,$p' /tmp/raw_dump.md > /tmp/Daily-Audit-Report.md
+# 🌟 FIX 2: The Delimiter Extractor
+# We search for the exact delimiter token instead of the markdown table.
+# This guarantees extraction even if the LLM returns the 0-results state!
+sed -n '/---BEGIN_REPORT---/,$p' /tmp/raw_dump.md | sed '1d' > /tmp/Daily-Audit-Report.md
 
 if [ ! -s /tmp/Daily-Audit-Report.md ]; then
     echo "❌ FATAL: The extracted Markdown file is completely empty. Printing raw dump for debugging:"
