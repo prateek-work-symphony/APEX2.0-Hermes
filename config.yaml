@@ -589,18 +589,11 @@ mcp_servers:
     args:
     - -y
     - "@azure-devops/mcp@latest"
-    - "PrateekSymphony" # Change to your personal mock org name
     - "--authentication"
     - "pat"
-# We remove the hardcoded PAT token here; Hermes automatically forwards system env vars
-    
-  mcp-cron:
-    command: npx
-    args:
-    - -y
-    - mcp-cron
-    - --transport
-    - stdio
+    env:
+      AZURE_DEVOPS_ORG_URL: "${AZURE_DEVOPS_ORG_URL}"
+      AZURE_DEVOPS_PAT: "${AZURE_DEVOPS_PAT}"
 
 # ── Fallback Model ────────────────────────────────────────────────────
 # Automatic provider failover when primary is unavailable.

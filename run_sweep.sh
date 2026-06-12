@@ -31,6 +31,7 @@ git -c http.extraheader="AUTHORIZATION: Basic $B64_MOCK_PAT" clone \
 
 # ── Phase 4: Authenticate the MCP Tool ────────────────────────────────
 export AZURE_DEVOPS_PAT="$COMPANY_PAT"
+export AZURE_DEVOPS_ORG_URL="https://dev.azure.com/${COMPANY_ORG}"
 
 # ── Phase 5: Construct the LLM Prompt ────────────────────────────────
 # The prompt forces the LLM to supply ALL tool parameters explicitly,
