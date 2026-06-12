@@ -8,8 +8,10 @@ echo "🚀 Booting Automated Delivery Agent..."
 # We force a known HOME so Hermes finds its pre-baked config.yaml and
 # NEVER triggers the first-time setup wizard (? Name of the agency).
 export HOME=/tmp/safe_home
-mkdir -p "$HOME/.config/hermes"
-cp /opt/hermes/config.yaml "$HOME/.config/hermes/config.yaml"
+mkdir -p "$HOME/.hermes"
+cp /opt/hermes/config.yaml "$HOME/.hermes/config.yaml"
+# Create an empty .env so Hermes doesn't prompt for API keys interactively
+touch "$HOME/.hermes/.env"
 
 # ── Phase 2: Headless Environment Lockdown ────────────────────────────
 # Defense-in-depth: tell every Node.js CLI tool (Inquirer.js, etc.)

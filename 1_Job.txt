@@ -1,0 +1,884 @@
+2026-06-12T04:52:20.2046419Z ##[section]Starting: Job
+2026-06-12T04:52:20.2223784Z ##[debug]Cleaning agent temp folder: /home/vsts/work/_temp
+2026-06-12T04:52:20.2249442Z ##[debug]Skipping overwrite %TEMP% environment variable
+2026-06-12T04:52:20.3745919Z ##[section]Starting: Initialize job
+2026-06-12T04:52:20.3750722Z Agent name: 'Azure Pipelines 1'
+2026-06-12T04:52:20.3751769Z Agent machine name: 'runnervmiw1ic'
+2026-06-12T04:52:20.3752183Z Current agent version: '4.274.1'
+2026-06-12T04:52:20.3777861Z ##[group]Runner Image Provisioner
+2026-06-12T04:52:20.3778413Z Hosted Compute Agent
+2026-06-12T04:52:20.3778774Z Version: 20260527.539
+2026-06-12T04:52:20.3779710Z Commit: a891dd388383b896fa6ac04a82c0b75cec981078
+2026-06-12T04:52:20.3780268Z Build Date: 2026-05-27T21:39:57Z
+2026-06-12T04:52:20.3780828Z Worker ID: {050a8d93-eb2f-4e44-a053-8eba094a4d0f}
+2026-06-12T04:52:20.3781279Z Azure Region: southindia
+2026-06-12T04:52:20.3781647Z ##[endgroup]
+2026-06-12T04:52:20.3782026Z ##[group]_internal_runner_telemetry
+2026-06-12T04:52:20.3782475Z ProcessLifetimeId: d2c71e59-a9c7-42b1-a349-a3b03f75c886
+2026-06-12T04:52:20.3782966Z Azure Region: southindia
+2026-06-12T04:52:20.3783311Z ##[endgroup]
+2026-06-12T04:52:20.3783691Z ##[group]Operating System
+2026-06-12T04:52:20.3784058Z Ubuntu
+2026-06-12T04:52:20.3784358Z 24.04.4
+2026-06-12T04:52:20.3784650Z LTS
+2026-06-12T04:52:20.3784943Z ##[endgroup]
+2026-06-12T04:52:20.3785292Z ##[group]Runner Image
+2026-06-12T04:52:20.3785665Z Image: ubuntu-24.04
+2026-06-12T04:52:20.3786025Z Version: 20260607.184.1
+2026-06-12T04:52:20.3786557Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260607.184/images/ubuntu/Ubuntu2404-Readme.md
+2026-06-12T04:52:20.3787207Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260607.184
+2026-06-12T04:52:20.3787709Z ##[endgroup]
+2026-06-12T04:52:20.3792200Z Current image version: '20260607.184.1'
+2026-06-12T04:52:20.4359953Z Agent running as: 'vsts'
+2026-06-12T04:52:20.4399878Z ##[debug]Triggering repository: prateek-work-symphony/APEX2.0-Hermes. repository type: GitHub
+2026-06-12T04:52:20.4403823Z Prepare build directory.
+2026-06-12T04:52:20.4574507Z ##[debug]Creating build directory: '/home/vsts/work/1'
+2026-06-12T04:52:20.4576256Z ##[debug]Delete existing artifacts directory: '/home/vsts/work/1/a'
+2026-06-12T04:52:20.4577884Z ##[debug]Creating artifacts directory: '/home/vsts/work/1/a'
+2026-06-12T04:52:20.4579846Z ##[debug]Delete existing test results directory: '/home/vsts/work/1/TestResults'
+2026-06-12T04:52:20.4580426Z ##[debug]Creating test results directory: '/home/vsts/work/1/TestResults'
+2026-06-12T04:52:20.4581793Z ##[debug]Creating binaries directory: '/home/vsts/work/1/b'
+2026-06-12T04:52:20.4583111Z ##[debug]Creating source directory: '/home/vsts/work/1/s'
+2026-06-12T04:52:20.4608453Z Set build variables.
+2026-06-12T04:52:20.4623203Z Download all required tasks.
+2026-06-12T04:52:20.4681261Z Downloading task: CmdLine (2.274.0)
+2026-06-12T04:52:20.7123484Z ##[debug]Task 'CmdLine' has been downloaded into '/home/vsts/work/_tasks/CmdLine_d9bafed4-0b18-4f58-968d-86655b4d2ce9/2.274.0'.
+2026-06-12T04:52:20.7586620Z Checking job knob settings.
+2026-06-12T04:52:20.7590007Z    Knob: DockerActionRetries = true Source: $(VSTSAGENT_DOCKER_ACTION_RETRIES) 
+2026-06-12T04:52:20.7590416Z    Knob: AgentToolsDirectory = /opt/hostedtoolcache Source: ${AGENT_TOOLSDIRECTORY} 
+2026-06-12T04:52:20.7592301Z    Knob: UseGitLongPaths = true Source: $(USE_GIT_LONG_PATHS) 
+2026-06-12T04:52:20.7594276Z    Knob: UseNode24withHandlerData = True Source: $(DistributedTask.Agent.UseNode24withHandlerData) 
+2026-06-12T04:52:20.7596432Z    Knob: EnableIssueSourceValidation = true Source: $(ENABLE_ISSUE_SOURCE_VALIDATION) 
+2026-06-12T04:52:20.7597528Z    Knob: AgentEnablePipelineArtifactLargeChunkSize = true Source: $(AGENT_ENABLE_PIPELINEARTIFACT_LARGE_CHUNK_SIZE) 
+2026-06-12T04:52:20.7600858Z    Knob: ContinueAfterCancelProcessTreeKillAttempt = true Source: $(VSTSAGENT_CONTINUE_AFTER_CANCEL_PROCESSTREEKILL_ATTEMPT) 
+2026-06-12T04:52:20.7601738Z    Knob: ProcessHandlerSecureArguments = false Source: $(AZP_75787_ENABLE_NEW_LOGIC) 
+2026-06-12T04:52:20.7602447Z    Knob: ProcessHandlerSecureArguments = false Source: $(AZP_75787_ENABLE_NEW_LOGIC_LOG) 
+2026-06-12T04:52:20.7603091Z    Knob: ProcessHandlerTelemetry = true Source: $(AZP_75787_ENABLE_COLLECT) 
+2026-06-12T04:52:20.7603747Z    Knob: UseNewNodeHandlerTelemetry = True Source: $(DistributedTask.Agent.USENEWNODEHANDLERTELEMETRY) 
+2026-06-12T04:52:20.7604313Z    Knob: ProcessHandlerEnableNewLogic = true Source: $(AZP_75787_ENABLE_NEW_PH_LOGIC) 
+2026-06-12T04:52:20.7605542Z    Knob: EnableResourceMonitorDebugOutput = true Source: $(AZP_ENABLE_RESOURCE_MONITOR_DEBUG_OUTPUT) 
+2026-06-12T04:52:20.7606152Z    Knob: EnableResourceUtilizationWarnings = true Source: $(AZP_ENABLE_RESOURCE_UTILIZATION_WARNINGS) 
+2026-06-12T04:52:20.7607014Z    Knob: IgnoreVSTSTaskLib = true Source: $(AZP_AGENT_IGNORE_VSTSTASKLIB) 
+2026-06-12T04:52:20.7607565Z    Knob: FailJobWhenAgentDies = true Source: $(FAIL_JOB_WHEN_AGENT_DIES) 
+2026-06-12T04:52:20.7607898Z    Knob: EnhancedWorkerCrashHandling = true Source: ${AZP_ENHANCED_WORKER_CRASH_HANDLING} 
+2026-06-12T04:52:20.7608641Z    Knob: CheckForTaskDeprecation = true Source: $(AZP_AGENT_CHECK_FOR_TASK_DEPRECATION) 
+2026-06-12T04:52:20.7609625Z    Knob: CheckIfTaskNodeRunnerIsDeprecated246 = True Source: $(DistributedTask.Agent.CheckIfTaskNodeRunnerIsDeprecated246) 
+2026-06-12T04:52:20.7610922Z    Knob: EnableTimeoutLogFlushing = True Source: $(DistributedTask.Agent.EnableTimeoutLogFlushing) 
+2026-06-12T04:52:20.7611810Z    Knob: LogTaskNameInUserAgent = true Source: $(AZP_AGENT_LOG_TASKNAME_IN_USERAGENT) 
+2026-06-12T04:52:20.7612399Z    Knob: UseFetchFilterInCheckoutTask = true Source: $(AGENT_USE_FETCH_FILTER_IN_CHECKOUT_TASK) 
+2026-06-12T04:52:20.7613037Z    Knob: UseFetchFilterInGitSubmoduleUpdate = True Source: $(DistributedTask.Agent.UseFetchFilterInGitSubmoduleUpdate) 
+2026-06-12T04:52:20.7613785Z    Knob: Rosetta2Warning = true Source: $(ROSETTA2_WARNING) 
+2026-06-12T04:52:20.7614358Z    Knob: CheckPsModulesLocations = False Source: $(DistributedTask.Agent.CheckPsModulesLocations) 
+2026-06-12T04:52:20.7616193Z    Knob: AddForceCredentialsToGitCheckoutEnhanced = True Source: $(DistributedTask.Agent.AddForceCredentialsToGitCheckoutEnhanced) 
+2026-06-12T04:52:20.7617202Z    Knob: UseLatestTfExe = True Source: $(DistributedTask.Agent.UseLatestTfExe) 
+2026-06-12T04:52:20.7617804Z    Knob: UseSparseCheckoutInCheckoutTask = true Source: $(AGENT_USE_SPARSE_CHECKOUT_IN_CHECKOUT_TASK) 
+2026-06-12T04:52:20.7618596Z    Knob: AgentCDNConnectivityFailWarning = False Source: $(DistributedTask.Agent.AgentCDNConnectivityFailWarning) 
+2026-06-12T04:52:20.7619263Z    Knob: UseEnhancedLogging = true Source: ${AZP_USE_ENHANCED_LOGGING} 
+2026-06-12T04:52:20.7620119Z Finished checking job knob settings.
+2026-06-12T04:52:20.7828329Z ##[debug]Log plugin 'TestResultLogPlugin' is disabled.
+2026-06-12T04:52:20.7828867Z ##[debug]Log plugin 'TestFilePublisherPlugin' is disabled.
+2026-06-12T04:52:20.7830032Z Start tracking orphan processes.
+2026-06-12T04:52:20.7990599Z ##[section]Finishing: Initialize job
+2026-06-12T04:52:20.8058376Z ##[section]Async Command Start: DetectDockerContainer
+2026-06-12T04:52:20.8059683Z ##[section]Async Command End: DetectDockerContainer
+2026-06-12T04:52:20.8060954Z ##[section]Async Command Start: DetectDockerContainer
+2026-06-12T04:52:20.8061358Z ##[section]Async Command End: DetectDockerContainer
+2026-06-12T04:52:20.8117865Z ##[debug]Evaluating condition for step: 'Checkout prateek-work-symphony/APEX2.0-Hermes@main to s'
+2026-06-12T04:52:20.8150175Z ##[debug]Evaluating: SucceededNode()
+2026-06-12T04:52:20.8155916Z ##[debug]Evaluating SucceededNode:
+2026-06-12T04:52:20.8189646Z ##[debug]Result: True
+2026-06-12T04:52:20.8227261Z ##[section]Starting: Checkout prateek-work-symphony/APEX2.0-Hermes@main to s
+2026-06-12T04:52:20.8352688Z ==============================================================================
+2026-06-12T04:52:20.8353752Z Task         : Get sources
+2026-06-12T04:52:20.8354539Z Description  : Get sources from a repository. Supports Git, TfsVC, and SVN repositories.
+2026-06-12T04:52:20.8355197Z Version      : 1.0.0
+2026-06-12T04:52:20.8355869Z Author       : Microsoft
+2026-06-12T04:52:20.8356694Z Help         : [More Information](https://go.microsoft.com/fwlink/?LinkId=798199)
+2026-06-12T04:52:20.8357149Z ==============================================================================
+2026-06-12T04:52:21.1178521Z ##[debug]Processed: ##vso[telemetry.publish area=AzurePipelinesAgent;feature=Checkout]{"RepoType":"GitHub","HostOS":"Linux"}
+2026-06-12T04:52:21.1201024Z ##[debug]Processed: ##vso[plugininternal.updaterepositorypath alias=self;]/home/vsts/work/1/s
+2026-06-12T04:52:21.1204286Z ##[debug]Repository requires to be placed at '/home/vsts/work/1/s', current location is '/home/vsts/work/1/s'
+2026-06-12T04:52:21.1205874Z Syncing repository: prateek-work-symphony/APEX2.0-Hermes (GitHub)
+2026-06-12T04:52:21.1207713Z ##[debug]repository url=https://github.com/prateek-work-symphony/APEX2.0-Hermes
+2026-06-12T04:52:21.1210479Z ##[debug]targetPath=/home/vsts/work/1/s
+2026-06-12T04:52:21.1212238Z ##[debug]sourceBranch=refs/heads/main
+2026-06-12T04:52:21.1214152Z ##[debug]sourceVersion=079e0f140bce230625fcf9466b07ac95fe107c72
+2026-06-12T04:52:21.1216797Z ##[debug]clean=True
+2026-06-12T04:52:21.1218751Z ##[debug]checkoutSubmodules=False
+2026-06-12T04:52:21.1221340Z ##[debug]checkoutNestedSubmodules=False
+2026-06-12T04:52:21.1223371Z ##[debug]exposeCred=False
+2026-06-12T04:52:21.1225425Z ##[debug]fetchDepth=1
+2026-06-12T04:52:21.1227438Z ##[debug]fetchFilter=
+2026-06-12T04:52:21.1230262Z ##[debug]fetchTags=True
+2026-06-12T04:52:21.1232360Z ##[debug]gitLfsSupport=False
+2026-06-12T04:52:21.1234133Z ##[debug]acceptUntrustedCerts=False
+2026-06-12T04:52:21.1235764Z ##[debug]sparseCheckout=False
+2026-06-12T04:52:21.1237306Z ##[debug]schannelSslBackend=False
+2026-06-12T04:52:21.1239564Z ##[debug]Which: 'git'
+2026-06-12T04:52:21.2553823Z ##[debug]Location: '{matches.First()}'
+2026-06-12T04:52:21.2560945Z ##[debug]Which: 'git-lfs'
+2026-06-12T04:52:21.2623251Z ##[debug]Location: '{matches.First()}'
+2026-06-12T04:52:21.2638425Z ##[debug]Get git version.
+2026-06-12T04:52:21.2650359Z ##[command]git version
+2026-06-12T04:52:21.2811749Z ##[debug]Starting process:
+2026-06-12T04:52:21.2825969Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:21.2851581Z ##[debug]  Arguments: 'version'
+2026-06-12T04:52:21.2853698Z ##[debug]  Working directory: '/home/vsts/work'
+2026-06-12T04:52:21.2871096Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:21.2898559Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:21.2921285Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:21.2943178Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:21.2962483Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:21.2981250Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:21.2983545Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:21.2985817Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:21.2988246Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:21.3036925Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:21.3060903Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:21.3090877Z ##[debug]Updated oom_score_adj to 500 for PID: 2019.
+2026-06-12T04:52:21.3093703Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:21.3112462Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.3131255Z ##[debug]Exited process
+2026-06-12T04:52:21.3151021Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.3171045Z ##[debug]Finished process and elapsed time 00:00:00.0378465.
+2026-06-12T04:52:21.3182632Z git version 2.54.0
+2026-06-12T04:52:21.3184806Z ##[debug]Detect git version: 2.54.0.
+2026-06-12T04:52:21.3187035Z ##[debug]Get git-lfs version.
+2026-06-12T04:52:21.3188597Z ##[command]git lfs version
+2026-06-12T04:52:21.3190759Z ##[debug]Starting process:
+2026-06-12T04:52:21.3192892Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:21.3207319Z ##[debug]  Arguments: 'lfs version'
+2026-06-12T04:52:21.3210033Z ##[debug]  Working directory: '/home/vsts/work'
+2026-06-12T04:52:21.3212246Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:21.3214388Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:21.3216545Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:21.3218666Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:21.3221302Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:21.3223647Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:21.3226081Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:21.3228310Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:21.3232196Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:21.3235077Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:21.3237471Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:21.3243157Z ##[debug]Updated oom_score_adj to 500 for PID: 2026.
+2026-06-12T04:52:21.3245498Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:21.3522423Z ##[debug]Agent environment resources - Unable to get disk info, exception: Value cannot be null. (Parameter 'driveName'), Memory: Used 786.00 MB out of 7938.00 MB, CPU: Usage 62.88%
+2026-06-12T04:52:21.3913997Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.3917262Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.3920732Z ##[debug]Exited process
+2026-06-12T04:52:21.3923592Z ##[debug]Finished process and elapsed time 00:00:00.0737109.
+2026-06-12T04:52:21.3925601Z git-lfs/3.7.1 (GitHub; linux amd64; go 1.24.4)
+2026-06-12T04:52:21.3927908Z ##[debug]Detect git-lfs version: '3.7.1'.
+2026-06-12T04:52:21.3932313Z ##[debug]Set git useragent to: git/2.54.0 (vsts-agent-git/4.274.1).
+2026-06-12T04:52:21.4011479Z ##[debug]Checking if the repo on /home/vsts/work/1/s matches the expected repository origin URL. expected Url: https://github.com/prateek-work-symphony/APEX2.0-Hermes
+2026-06-12T04:52:21.4031371Z ##[debug]Repository is not found since '.git' directory does not exist under. /home/vsts/work/1/s
+2026-06-12T04:52:21.4141196Z ##[debug]Init git repository at: /home/vsts/work/1/s.
+2026-06-12T04:52:21.4150652Z ##[command]git init "/home/vsts/work/1/s"
+2026-06-12T04:52:21.4171151Z ##[debug]Starting process:
+2026-06-12T04:52:21.4173287Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:21.4174426Z ##[debug]  Arguments: 'init "/home/vsts/work/1/s"'
+2026-06-12T04:52:21.4175414Z ##[debug]  Working directory: '/home/vsts/work/1/s'
+2026-06-12T04:52:21.4176350Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:21.4177281Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:21.4178204Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:21.4179806Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:21.4181854Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:21.4183930Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:21.4185880Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:21.4187852Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:21.4192809Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:21.4196553Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:21.4201735Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:21.4204274Z ##[debug]Updated oom_score_adj to 500 for PID: 2039.
+2026-06-12T04:52:21.4211392Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:21.4321569Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-06-12T04:52:21.4324105Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-06-12T04:52:21.4327026Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-06-12T04:52:21.4329157Z hint: call:
+2026-06-12T04:52:21.4337204Z hint:
+2026-06-12T04:52:21.4340410Z Initialized empty Git repository in /home/vsts/work/1/s/.git/
+2026-06-12T04:52:21.4342937Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.4345670Z ##[debug]Exited process
+2026-06-12T04:52:21.4347659Z hint: 	git config --global init.defaultBranch <name>
+2026-06-12T04:52:21.4349614Z hint:
+2026-06-12T04:52:21.4351442Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-06-12T04:52:21.4353236Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-06-12T04:52:21.4354837Z hint:
+2026-06-12T04:52:21.4374022Z hint: 	git branch -m <name>
+2026-06-12T04:52:21.4375373Z hint:
+2026-06-12T04:52:21.4376664Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-06-12T04:52:21.4378616Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.4381359Z ##[debug]Finished process and elapsed time 00:00:00.0211941.
+2026-06-12T04:52:21.4392951Z ##[debug]Add git remote: origin to url: https://github.com/prateek-work-symphony/APEX2.0-Hermes for repository under: /home/vsts/work/1/s.
+2026-06-12T04:52:21.4394787Z ##[command]git remote add origin https://github.com/prateek-work-symphony/APEX2.0-Hermes
+2026-06-12T04:52:21.4396689Z ##[debug]Starting process:
+2026-06-12T04:52:21.4399561Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:21.4403267Z ##[debug]  Arguments: 'remote add origin https://github.com/prateek-work-symphony/APEX2.0-Hermes'
+2026-06-12T04:52:21.4405835Z ##[debug]  Working directory: '/home/vsts/work/1/s'
+2026-06-12T04:52:21.4408027Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:21.4410767Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:21.4440903Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:21.4457065Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:21.4489459Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:21.4501489Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:21.4503897Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:21.4505836Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:21.4507467Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:21.4509398Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:21.4510707Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:21.4511729Z ##[debug]Updated oom_score_adj to 500 for PID: 2045.
+2026-06-12T04:52:21.4512663Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:21.4513578Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.4514493Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.4515395Z ##[debug]Exited process
+2026-06-12T04:52:21.4516320Z ##[debug]Finished process and elapsed time 00:00:00.0086880.
+2026-06-12T04:52:21.4517368Z ##[debug]Sparse checkout disable
+2026-06-12T04:52:21.4518504Z ##[command]git sparse-checkout disable
+2026-06-12T04:52:21.4520837Z ##[debug]Starting process:
+2026-06-12T04:52:21.4521790Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:21.4522705Z ##[debug]  Arguments: 'sparse-checkout disable'
+2026-06-12T04:52:21.4524348Z ##[debug]  Working directory: '/home/vsts/work/1/s'
+2026-06-12T04:52:21.4525305Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:21.4526228Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:21.4528236Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:21.4531137Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:21.4533210Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:21.4536165Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:21.4538065Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:21.4541091Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:21.4542809Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:21.4544344Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:21.4545344Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:21.4546433Z ##[debug]Updated oom_score_adj to 500 for PID: 2046.
+2026-06-12T04:52:21.4547345Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:21.4548300Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.4550263Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.4552073Z ##[debug]Exited process
+2026-06-12T04:52:21.4553863Z ##[debug]Finished process and elapsed time 00:00:00.0070351.
+2026-06-12T04:52:21.4575613Z ##[debug]Show the working tree status for repository at /home/vsts/work/1/s.
+2026-06-12T04:52:21.4592548Z ##[command]git status
+2026-06-12T04:52:21.4594232Z ##[debug]Starting process:
+2026-06-12T04:52:21.4596402Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:21.4597982Z ##[debug]  Arguments: 'status'
+2026-06-12T04:52:21.4600592Z ##[debug]  Working directory: '/home/vsts/work/1/s'
+2026-06-12T04:52:21.4601899Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:21.4603261Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:21.4604256Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:21.4605402Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:21.4607336Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:21.4609465Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:21.4611291Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:21.4613335Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:21.4615455Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:21.4617626Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:21.4620375Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:21.4622535Z ##[debug]Updated oom_score_adj to 500 for PID: 2047.
+2026-06-12T04:52:21.4625240Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:21.4673770Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.4676276Z ##[debug]Exited process
+2026-06-12T04:52:21.4678106Z On branch master
+2026-06-12T04:52:21.4680137Z 
+2026-06-12T04:52:21.4681789Z No commits yet
+2026-06-12T04:52:21.4683044Z 
+2026-06-12T04:52:21.4684853Z nothing to commit (create/copy files and use "git add" to track)
+2026-06-12T04:52:21.4687699Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.4690955Z ##[debug]Finished process and elapsed time 00:00:00.0046449.
+2026-06-12T04:52:21.4698473Z ##[debug]Processed: ##vso[task.setprogress value=0]Starting fetch...
+2026-06-12T04:52:21.4701620Z ##[debug]Disable git auto garbage collection.
+2026-06-12T04:52:21.4703762Z ##[command]git config gc.auto 0
+2026-06-12T04:52:21.4705870Z ##[debug]Starting process:
+2026-06-12T04:52:21.4708629Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:21.4711502Z ##[debug]  Arguments: 'config gc.auto 0'
+2026-06-12T04:52:21.4714300Z ##[debug]  Working directory: '/home/vsts/work/1/s'
+2026-06-12T04:52:21.4716969Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:21.4720318Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:21.4723331Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:21.4726455Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:21.4729660Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:21.4732892Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:21.4735655Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:21.4738442Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:21.4741653Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:21.4744914Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:21.4748043Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:21.4751583Z ##[debug]Updated oom_score_adj to 500 for PID: 2048.
+2026-06-12T04:52:21.4754205Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:21.4772427Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.4775261Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.4778283Z ##[debug]Exited process
+2026-06-12T04:52:21.4781611Z ##[debug]Finished process and elapsed time 00:00:00.0050099.
+2026-06-12T04:52:21.4784983Z ##[debug]Set git config core.longpaths true
+2026-06-12T04:52:21.4787030Z ##[command]git config core.longpaths true
+2026-06-12T04:52:21.4789895Z ##[debug]Starting process:
+2026-06-12T04:52:21.4792307Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:21.4795170Z ##[debug]  Arguments: 'config core.longpaths true'
+2026-06-12T04:52:21.4798029Z ##[debug]  Working directory: '/home/vsts/work/1/s'
+2026-06-12T04:52:21.4801353Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:21.4804273Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:21.4807408Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:21.4810428Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:21.4813335Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:21.4815709Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:21.4818512Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:21.4821935Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:21.4825326Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:21.4828101Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:21.4831258Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:21.4833682Z ##[debug]Updated oom_score_adj to 500 for PID: 2049.
+2026-06-12T04:52:21.4836506Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:21.4839453Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.4842338Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.4844846Z ##[debug]Exited process
+2026-06-12T04:52:21.4847692Z ##[debug]Finished process and elapsed time 00:00:00.0035867.
+2026-06-12T04:52:21.4850846Z ##[debug]Checking git config http.https://github.com/prateek-work-symphony/APEX2.0-Hermes.extraheader exist or not
+2026-06-12T04:52:21.4853436Z ##[command]git config --get-all http.https://github.com/prateek-work-symphony/APEX2.0-Hermes.extraheader
+2026-06-12T04:52:21.4855948Z ##[debug]Starting process:
+2026-06-12T04:52:21.4858893Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:21.4862274Z ##[debug]  Arguments: 'config --get-all http.https://github.com/prateek-work-symphony/APEX2.0-Hermes.extraheader'
+2026-06-12T04:52:21.4865533Z ##[debug]  Working directory: '/home/vsts/work/1/s'
+2026-06-12T04:52:21.4868041Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:21.4871198Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:21.4873919Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:21.4876997Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:21.4880295Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:21.4883187Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:21.4885802Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:21.4889290Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:21.4892045Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:21.4895117Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:21.4897854Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:21.4901298Z ##[debug]Updated oom_score_adj to 500 for PID: 2050.
+2026-06-12T04:52:21.4904146Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:21.4907257Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.4910137Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.4913148Z ##[debug]Exited process
+2026-06-12T04:52:21.4915789Z ##[debug]Finished process and elapsed time 00:00:00.0024728.
+2026-06-12T04:52:21.4919329Z ##[debug]Checking git config http.extraheader exist or not
+2026-06-12T04:52:21.4921421Z ##[command]git config --get-all http.extraheader
+2026-06-12T04:52:21.4923911Z ##[debug]Starting process:
+2026-06-12T04:52:21.4926516Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:21.4929891Z ##[debug]  Arguments: 'config --get-all http.extraheader'
+2026-06-12T04:52:21.4933064Z ##[debug]  Working directory: '/home/vsts/work/1/s'
+2026-06-12T04:52:21.4936010Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:21.4938709Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:21.4942040Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:21.4944805Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:21.4947973Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:21.4951282Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:21.4954348Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:21.4956909Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:21.4960519Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:21.4963274Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:21.4966469Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:21.4969943Z ##[debug]Updated oom_score_adj to 500 for PID: 2051.
+2026-06-12T04:52:21.4973003Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:21.4975802Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.4978912Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.4981745Z ##[debug]Exited process
+2026-06-12T04:52:21.4984905Z ##[debug]Finished process and elapsed time 00:00:00.0027777.
+2026-06-12T04:52:21.4987936Z ##[debug]Checking git config .*extraheader exist or not
+2026-06-12T04:52:21.4990633Z ##[command]git config --get-regexp .*extraheader
+2026-06-12T04:52:21.4993106Z ##[debug]Starting process:
+2026-06-12T04:52:21.4996183Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:21.4998882Z ##[debug]  Arguments: 'config --get-regexp .*extraheader'
+2026-06-12T04:52:21.5002373Z ##[debug]  Working directory: '/home/vsts/work/1/s'
+2026-06-12T04:52:21.5005207Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:21.5008078Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:21.5011233Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:21.5014583Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:21.5017309Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:21.5020978Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:21.5023946Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:21.5027044Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:21.5030370Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:21.5033490Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:21.5035991Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:21.5051390Z ##[debug]Failed to update oom_score_adj for PID: 2052.
+2026-06-12T04:52:21.5053985Z ##[debug]Exited process
+2026-06-12T04:52:21.5058377Z ##[debug]System.UnauthorizedAccessException: Access to the path '/proc/2052/oom_score_adj' is denied.
+ ---> System.IO.IOException: Permission denied
+   --- End of inner exception stack trace ---
+   at Interop.ThrowExceptionForIoErrno(ErrorInfo errorInfo, String path, Boolean isDirError)
+   at Microsoft.Win32.SafeHandles.SafeFileHandle.Open(String path, OpenFlags flags, Int32 mode, Boolean failForSymlink, Boolean& wasSymlink, Func`4 createOpenException)
+   at Microsoft.Win32.SafeHandles.SafeFileHandle.Open(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, UnixFileMode openPermissions, Int64& fileLength, UnixFileMode& filePermissions, Boolean failForSymlink, Boolean& wasSymlink, Func`4 createOpenException)
+   at System.IO.File.OpenHandle(String path, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize)
+   at System.IO.File.WriteToFile(String path, FileMode mode, String contents, Encoding encoding)
+   at Microsoft.VisualStudio.Services.Agent.Util.ProcessInvoker.WriteProcessOomScoreAdj(Int32 processId, Int32 oomScoreAdj) in /mnt/vss/_work/1/s/src/Agent.Sdk/ProcessInvoker.MacLinux.cs:line 75
+2026-06-12T04:52:21.5065739Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:21.5068375Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.5081221Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.5083814Z ##[debug]Finished process and elapsed time 00:00:00.0197278.
+2026-06-12T04:52:21.5086418Z ##[debug]Checking git config http.proxy exist or not
+2026-06-12T04:52:21.5088144Z ##[command]git config --get-all http.proxy
+2026-06-12T04:52:21.5090680Z ##[debug]Starting process:
+2026-06-12T04:52:21.5092920Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:21.5095447Z ##[debug]  Arguments: 'config --get-all http.proxy'
+2026-06-12T04:52:21.5098055Z ##[debug]  Working directory: '/home/vsts/work/1/s'
+2026-06-12T04:52:21.5102969Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:21.5104884Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:21.5106636Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:21.5108665Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:21.5110754Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:21.5112502Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:21.5114408Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:21.5116389Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:21.5118167Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:21.5120622Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:21.5122793Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:21.5124874Z ##[debug]Updated oom_score_adj to 500 for PID: 2053.
+2026-06-12T04:52:21.5126937Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:21.5129385Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.5131540Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.5133335Z ##[debug]Exited process
+2026-06-12T04:52:21.5135063Z ##[debug]Finished process and elapsed time 00:00:00.0017758.
+2026-06-12T04:52:21.5136823Z ##[debug]Set git config http.version HTTP/1.1
+2026-06-12T04:52:21.5138169Z ##[command]git config http.version HTTP/1.1
+2026-06-12T04:52:21.5140521Z ##[debug]Starting process:
+2026-06-12T04:52:21.5142576Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:21.5144338Z ##[debug]  Arguments: 'config http.version HTTP/1.1'
+2026-06-12T04:52:21.5146171Z ##[debug]  Working directory: '/home/vsts/work/1/s'
+2026-06-12T04:52:21.5147875Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:21.5150117Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:21.5152057Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:21.5153767Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:21.5155572Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:21.5157418Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:21.5159787Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:21.5161864Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:21.5163540Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:21.5165479Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:21.5167570Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:21.5170185Z ##[debug]Updated oom_score_adj to 500 for PID: 2054.
+2026-06-12T04:52:21.5172175Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:21.5174139Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.5176071Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.5177707Z ##[debug]Exited process
+2026-06-12T04:52:21.5180026Z ##[debug]Finished process and elapsed time 00:00:00.0020993.
+2026-06-12T04:52:21.5185668Z ##[debug]Processed: ##vso[task.setsecret]***
+2026-06-12T04:52:21.5187962Z ##[debug]Set environment variable env_var_http.extraheader
+2026-06-12T04:52:21.5191152Z ##[debug]Checking git config remote.origin.promisor exist or not
+2026-06-12T04:52:21.5198871Z ##[command]git config --get-all remote.origin.promisor
+2026-06-12T04:52:21.5215258Z ##[debug]Starting process:
+2026-06-12T04:52:21.5216942Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:21.5221065Z ##[debug]  Arguments: 'config --get-all remote.origin.promisor'
+2026-06-12T04:52:21.5223217Z ##[debug]  Working directory: '/home/vsts/work/1/s'
+2026-06-12T04:52:21.5225149Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:21.5227282Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:21.5229768Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:21.5242957Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:21.5251358Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:21.5257259Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:21.5260076Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:21.5262292Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:21.5264649Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:21.5266969Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:21.5270387Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:21.5272468Z ##[debug]Updated oom_score_adj to 500 for PID: 2055.
+2026-06-12T04:52:21.5274442Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:21.5276491Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.5278499Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.5282121Z ##[debug]Exited process
+2026-06-12T04:52:21.5284838Z ##[debug]Finished process and elapsed time 00:00:00.0032145.
+2026-06-12T04:52:21.5290304Z ##[debug]Checking git config remote.origin.partialclonefilter exist or not
+2026-06-12T04:52:21.5291791Z ##[command]git config --get-all remote.origin.partialclonefilter
+2026-06-12T04:52:21.5293516Z ##[debug]Starting process:
+2026-06-12T04:52:21.5295515Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:21.5297636Z ##[debug]  Arguments: 'config --get-all remote.origin.partialclonefilter'
+2026-06-12T04:52:21.5300141Z ##[debug]  Working directory: '/home/vsts/work/1/s'
+2026-06-12T04:52:21.5302196Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:21.5303896Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:21.5306119Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:21.5308449Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:21.5311113Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:21.5313010Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:21.5315238Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:21.5316895Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:21.5318847Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:21.5321166Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:21.5323308Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:21.5325166Z ##[debug]Updated oom_score_adj to 500 for PID: 2056.
+2026-06-12T04:52:21.5327183Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:21.5329194Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.5331040Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:21.5332806Z ##[debug]Exited process
+2026-06-12T04:52:21.5333874Z ##[debug]Finished process and elapsed time 00:00:00.0021492.
+2026-06-12T04:52:21.5334995Z ##[debug]Enhanced partial clone detection - ExplicitFilter: False, InheritedConfig: False, ForceCredentialsEnhanced: True
+2026-06-12T04:52:21.5335974Z ##[debug]fetchDepth : 1
+2026-06-12T04:52:21.5336875Z ##[debug]fetchFilter : 
+2026-06-12T04:52:21.5338612Z ##[debug]fetchByCommit : True
+2026-06-12T04:52:21.5340181Z ##[debug]sourceVersion : 079e0f140bce230625fcf9466b07ac95fe107c72
+2026-06-12T04:52:21.5341133Z ##[debug]fetchTags : True
+2026-06-12T04:52:21.5342798Z ##[debug]shouldFetchByCommit : True
+2026-06-12T04:52:21.5344277Z ##[debug]Fetch git repository at: /home/vsts/work/1/s remote: origin.
+2026-06-12T04:52:21.5345171Z ##[command]git --config-env=http.extraheader=env_var_http.extraheader fetch --force --tags --prune --prune-tags --progress --no-recurse-submodules origin --depth=1  +079e0f140bce230625fcf9466b07ac95fe107c72:refs/remotes/origin/079e0f140bce230625fcf9466b07ac95fe107c72
+2026-06-12T04:52:21.5346656Z ##[debug]Starting process:
+2026-06-12T04:52:21.5347790Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:21.5349326Z ##[debug]  Arguments: '--config-env=http.extraheader=env_var_http.extraheader fetch --force --tags --prune --prune-tags --progress --no-recurse-submodules origin --depth=1  +079e0f140bce230625fcf9466b07ac95fe107c72:refs/remotes/origin/079e0f140bce230625fcf9466b07ac95fe107c72'
+2026-06-12T04:52:21.5351271Z ##[debug]  Working directory: '/home/vsts/work/1/s'
+2026-06-12T04:52:21.5352220Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:21.5353574Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:21.5354676Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:21.5355626Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:21.5357021Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:21.5357990Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:21.5359307Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:21.5361009Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:21.5362034Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:21.5362992Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:21.5364222Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:21.5366128Z ##[debug]Updated oom_score_adj to 500 for PID: 2057.
+2026-06-12T04:52:21.5367391Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:22.4480979Z remote: Enumerating objects: 9, done.        
+2026-06-12T04:52:22.4500653Z remote: Counting objects:  11% (1/9)        
+2026-06-12T04:52:22.4506648Z remote: Counting objects:  22% (2/9)        
+2026-06-12T04:52:22.4508278Z remote: Counting objects:  33% (3/9)        
+2026-06-12T04:52:22.4510901Z remote: Counting objects:  44% (4/9)        
+2026-06-12T04:52:22.4512342Z remote: Counting objects:  55% (5/9)        
+2026-06-12T04:52:22.4513904Z remote: Counting objects:  66% (6/9)        
+2026-06-12T04:52:22.4515966Z remote: Counting objects:  77% (7/9)        
+2026-06-12T04:52:22.4517447Z remote: Counting objects:  88% (8/9)        
+2026-06-12T04:52:22.4520648Z remote: Counting objects: 100% (9/9)        
+2026-06-12T04:52:22.4522356Z remote: Counting objects: 100% (9/9), done.        
+2026-06-12T04:52:22.4525926Z remote: Compressing objects:  12% (1/8)        
+2026-06-12T04:52:22.4527982Z remote: Compressing objects:  25% (2/8)        
+2026-06-12T04:52:22.4530967Z remote: Compressing objects:  37% (3/8)        
+2026-06-12T04:52:22.4533068Z remote: Compressing objects:  50% (4/8)        
+2026-06-12T04:52:22.4535574Z remote: Compressing objects:  62% (5/8)        
+2026-06-12T04:52:22.4537551Z remote: Compressing objects:  75% (6/8)        
+2026-06-12T04:52:22.4540372Z remote: Compressing objects:  87% (7/8)        
+2026-06-12T04:52:22.4541945Z remote: Compressing objects: 100% (8/8)        
+2026-06-12T04:52:22.4543818Z remote: Compressing objects: 100% (8/8), done.        
+2026-06-12T04:52:22.4545359Z remote: Total 9 (delta 0), reused 4 (delta 0), pack-reused 0 (from 0)        
+2026-06-12T04:52:22.4666611Z From https://github.com/prateek-work-symphony/APEX2.0-Hermes
+2026-06-12T04:52:22.4668345Z  * [new ref]         079e0f140bce230625fcf9466b07ac95fe107c72 -> origin/079e0f140bce230625fcf9466b07ac95fe107c72
+2026-06-12T04:52:22.4707526Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:22.4711779Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:22.4714974Z ##[debug]Exited process
+2026-06-12T04:52:22.4718329Z ##[debug]Finished process and elapsed time 00:00:00.9508855.
+2026-06-12T04:52:22.4937162Z ##[debug]Processed: ##vso[telemetry.publish area=AzurePipelinesAgent;feature=GitFetch]{"ElapsedTimeMilliseconds":"952","RefSpec":"+079e0f140bce230625fcf9466b07ac95fe107c72:refs/remotes/origin/079e0f140bce230625fcf9466b07ac95fe107c72","RemoteName":"origin","FetchDepth":"1","FetchFilter":"","FetchTags":"True","ExitCode":"0","Options":"--force --tags --prune --prune-tags --progress --no-recurse-submodules origin --depth=1  +079e0f140bce230625fcf9466b07ac95fe107c72:refs/remotes/origin/079e0f140bce230625fcf9466b07ac95fe107c72"}
+2026-06-12T04:52:22.4942552Z ##[debug]Fetch git repository at: /home/vsts/work/1/s remote: origin.
+2026-06-12T04:52:22.4944826Z ##[command]git --config-env=http.extraheader=env_var_http.extraheader fetch --force --tags --prune --prune-tags --progress --no-recurse-submodules origin --depth=1  +079e0f140bce230625fcf9466b07ac95fe107c72
+2026-06-12T04:52:22.4946518Z ##[debug]Starting process:
+2026-06-12T04:52:22.4948583Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:22.4951931Z ##[debug]  Arguments: '--config-env=http.extraheader=env_var_http.extraheader fetch --force --tags --prune --prune-tags --progress --no-recurse-submodules origin --depth=1  +079e0f140bce230625fcf9466b07ac95fe107c72'
+2026-06-12T04:52:22.4955079Z ##[debug]  Working directory: '/home/vsts/work/1/s'
+2026-06-12T04:52:22.4957374Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:22.4960459Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:22.4963033Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:22.4965730Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:22.4968212Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:22.4970450Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:22.4972126Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:22.4973916Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:22.4975642Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:22.4977327Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:22.4979226Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:22.4981110Z ##[debug]Updated oom_score_adj to 500 for PID: 2066.
+2026-06-12T04:52:22.4982804Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:23.3311609Z remote: Total 0 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)        
+2026-06-12T04:52:23.3348562Z From https://github.com/prateek-work-symphony/APEX2.0-Hermes
+2026-06-12T04:52:23.3356122Z  * branch            079e0f140bce230625fcf9466b07ac95fe107c72 -> FETCH_HEAD
+2026-06-12T04:52:23.3377553Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:23.3390595Z ##[debug]Exited process
+2026-06-12T04:52:23.3392120Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:23.3410761Z ##[debug]Finished process and elapsed time 00:00:00.8650693.
+2026-06-12T04:52:23.3583186Z ##[debug]Processed: ##vso[telemetry.publish area=AzurePipelinesAgent;feature=GitFetch]{"ElapsedTimeMilliseconds":"865","RefSpec":"+079e0f140bce230625fcf9466b07ac95fe107c72","RemoteName":"origin","FetchDepth":"1","FetchFilter":"","FetchTags":"True","ExitCode":"0","Options":"--force --tags --prune --prune-tags --progress --no-recurse-submodules origin --depth=1  +079e0f140bce230625fcf9466b07ac95fe107c72"}
+2026-06-12T04:52:23.3586801Z ##[debug]Processed: ##vso[task.setprogress value=80]Starting checkout...
+2026-06-12T04:52:23.3588563Z ##[debug]refFetchedByCommit : refs/remotes/origin/079e0f140bce230625fcf9466b07ac95fe107c72
+2026-06-12T04:52:23.3599286Z ##[debug]Checkout refs/remotes/origin/079e0f140bce230625fcf9466b07ac95fe107c72.
+2026-06-12T04:52:23.3600181Z ##[command]git checkout --progress --force refs/remotes/origin/079e0f140bce230625fcf9466b07ac95fe107c72
+2026-06-12T04:52:23.3601089Z ##[debug]Starting process:
+2026-06-12T04:52:23.3602303Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:23.3603734Z ##[debug]  Arguments: 'checkout --progress --force refs/remotes/origin/079e0f140bce230625fcf9466b07ac95fe107c72'
+2026-06-12T04:52:23.3604941Z ##[debug]  Working directory: '/home/vsts/work/1/s'
+2026-06-12T04:52:23.3605917Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:23.3606983Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:23.3608108Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:23.3610005Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:23.3611066Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:23.3612672Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:23.3613726Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:23.3614728Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:23.3615804Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:23.3616807Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:23.3617886Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:23.3618886Z ##[debug]Updated oom_score_adj to 500 for PID: 2075.
+2026-06-12T04:52:23.3620598Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:23.3621676Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:23.3622399Z Note: switching to 'refs/remotes/origin/079e0f140bce230625fcf9466b07ac95fe107c72'.
+2026-06-12T04:52:23.3622666Z 
+2026-06-12T04:52:23.3623535Z ##[debug]Exited process
+2026-06-12T04:52:23.3624272Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-06-12T04:52:23.3624809Z changes and commit them, and you can discard any commits you make in this
+2026-06-12T04:52:23.3625340Z state without impacting any branches by switching back to a branch.
+2026-06-12T04:52:23.3625593Z 
+2026-06-12T04:52:23.3626060Z If you want to create a new branch to retain commits you create, you may
+2026-06-12T04:52:23.3626805Z do so (now or later) by using -c with the switch command. Example:
+2026-06-12T04:52:23.3627033Z 
+2026-06-12T04:52:23.3627445Z   git switch -c <new-branch-name>
+2026-06-12T04:52:23.3627647Z 
+2026-06-12T04:52:23.3634021Z Or undo this operation with:
+2026-06-12T04:52:23.3634393Z 
+2026-06-12T04:52:23.3634838Z   git switch -
+2026-06-12T04:52:23.3635081Z 
+2026-06-12T04:52:23.3635568Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-06-12T04:52:23.3636162Z 
+2026-06-12T04:52:23.3636679Z HEAD is now at 079e0f1 v32 name change
+2026-06-12T04:52:23.3637877Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:23.3639524Z ##[debug]Finished process and elapsed time 00:00:00.0075964.
+2026-06-12T04:52:23.3647219Z ##[debug]Processed: ##vso[task.settaskvariable variable=repository;issecret=False;]self
+2026-06-12T04:52:23.3648898Z ##[debug]Processed: ##vso[task.settaskvariable variable=preferPath;issecret=False;]true
+2026-06-12T04:52:23.3653057Z ##[debug]Processed: ##vso[task.settaskvariable variable=repoUrlWithCred;issecret=True;]***
+2026-06-12T04:52:23.3654921Z ##[debug]Show the working tree status for repository at /home/vsts/work/1/s.
+2026-06-12T04:52:23.3655781Z ##[command]git status
+2026-06-12T04:52:23.3656659Z ##[debug]Starting process:
+2026-06-12T04:52:23.3657761Z ##[debug]  File name: '/usr/bin/git'
+2026-06-12T04:52:23.3658759Z ##[debug]  Arguments: 'status'
+2026-06-12T04:52:23.3660163Z ##[debug]  Working directory: '/home/vsts/work/1/s'
+2026-06-12T04:52:23.3661207Z ##[debug]  Require exit code zero: 'False'
+2026-06-12T04:52:23.3662291Z ##[debug]  Encoding web name:  ; code page: ''
+2026-06-12T04:52:23.3663358Z ##[debug]  Force kill process on cancellation: 'False'
+2026-06-12T04:52:23.3664375Z ##[debug]  Redirected STDIN: 'False'
+2026-06-12T04:52:23.3665383Z ##[debug]  Persist current code page: 'False'
+2026-06-12T04:52:23.3666392Z ##[debug]  Keep redirected STDIN open: 'False'
+2026-06-12T04:52:23.3667390Z ##[debug]  High priority process: 'False'
+2026-06-12T04:52:23.3668565Z ##[debug]  ContinueAfterCancelProcessTreeKillAttempt: 'False'
+2026-06-12T04:52:23.3670522Z ##[debug]  Sigint timeout: '00:00:07.5000000'
+2026-06-12T04:52:23.3671705Z ##[debug]  Sigterm timeout: '00:00:02.5000000'
+2026-06-12T04:52:23.3672726Z ##[debug]  Try to use graceful shutdown: False
+2026-06-12T04:52:23.3673737Z ##[debug]Updated oom_score_adj to 500 for PID: 2076.
+2026-06-12T04:52:23.3675000Z ##[debug]Process started, waiting for process exit.
+2026-06-12T04:52:23.3675833Z HEAD detached at origin/079e0f140bce230625fcf9466b07ac95fe107c72
+2026-06-12T04:52:23.3676711Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:23.3677371Z nothing to commit, working tree clean
+2026-06-12T04:52:23.3678208Z ##[debug]STDOUT/STDERR stream read finished.
+2026-06-12T04:52:23.3679622Z ##[debug]Exited process
+2026-06-12T04:52:23.3680755Z ##[debug]Finished process and elapsed time 00:00:00.0063752.
+2026-06-12T04:52:23.3729927Z ##[section]Finishing: Checkout prateek-work-symphony/APEX2.0-Hermes@main to s
+2026-06-12T04:52:23.3774059Z ##[debug]Evaluating condition for step: 'Execute Embedded Hermes Delivery Agent'
+2026-06-12T04:52:23.3775700Z ##[debug]Evaluating: SucceededNode()
+2026-06-12T04:52:23.3776102Z ##[debug]Evaluating SucceededNode:
+2026-06-12T04:52:23.3777292Z ##[debug]Result: True
+2026-06-12T04:52:23.3778771Z ##[section]Starting: Execute Embedded Hermes Delivery Agent
+2026-06-12T04:52:23.3786557Z ==============================================================================
+2026-06-12T04:52:23.3786718Z Task         : Command line
+2026-06-12T04:52:23.3786844Z Description  : Run a command line script using Bash on Linux and macOS and cmd.exe on Windows
+2026-06-12T04:52:23.3786997Z Version      : 2.274.0
+2026-06-12T04:52:23.3787122Z Author       : Microsoft Corporation
+2026-06-12T04:52:23.3787253Z Help         : https://docs.microsoft.com/azure/devops/pipelines/tasks/utility/command-line
+2026-06-12T04:52:23.3787396Z ==============================================================================
+2026-06-12T04:52:23.4526640Z ##[debug]Using legacy node selection path for handler node resolution.
+2026-06-12T04:52:23.4724407Z ##[debug]Using node path: /home/vsts/actions-runner/cached/4.274.1/externals/node24/bin/node
+2026-06-12T04:52:23.5147552Z ##[debug]system.debug=True
+2026-06-12T04:52:23.5150913Z ##[debug]DistributedTask.Tasks.Node.SkipDebugLogsWhenDebugModeOff=undefined
+2026-06-12T04:52:23.5184593Z ##[debug]agent.TempDirectory=/home/vsts/work/_temp
+2026-06-12T04:52:23.5189210Z ##[debug]loading inputs and endpoints
+2026-06-12T04:52:23.5204376Z ##[debug]loading INPUT_SCRIPT
+2026-06-12T04:52:23.5215082Z ##[debug]loading INPUT_WORKINGDIRECTORY
+2026-06-12T04:52:23.5216943Z ##[debug]loading INPUT_FAILONSTDERR
+2026-06-12T04:52:23.5219347Z ##[debug]loading ENDPOINT_AUTH_SYSTEMVSSCONNECTION
+2026-06-12T04:52:23.5221468Z ##[debug]loading ENDPOINT_AUTH_SCHEME_SYSTEMVSSCONNECTION
+2026-06-12T04:52:23.5223299Z ##[debug]loading ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN
+2026-06-12T04:52:23.5229199Z ##[debug]loading SECRET_COMPANY_PAT
+2026-06-12T04:52:23.5236054Z ##[debug]loading SECRET_AZURE_FOUNDRY_API_KEY
+2026-06-12T04:52:23.5237690Z ##[debug]loading SECRET_MOCK_PAT
+2026-06-12T04:52:23.5239953Z ##[debug]loading SECRET_SYSTEM_ACCESSTOKEN
+2026-06-12T04:52:23.5241845Z ##[debug]loaded 10
+2026-06-12T04:52:23.5243616Z ##[debug]Agent.ProxyUrl=undefined
+2026-06-12T04:52:23.5245344Z ##[debug]Agent.CAInfo=undefined
+2026-06-12T04:52:23.5246961Z ##[debug]Agent.ClientCert=undefined
+2026-06-12T04:52:23.5248629Z ##[debug]Agent.SkipCertValidation=undefined
+2026-06-12T04:52:23.5310568Z ##[debug]check path : /home/vsts/work/_tasks/CmdLine_d9bafed4-0b18-4f58-968d-86655b4d2ce9/2.274.0/task.json
+2026-06-12T04:52:23.5330730Z ##[debug]adding resource file: /home/vsts/work/_tasks/CmdLine_d9bafed4-0b18-4f58-968d-86655b4d2ce9/2.274.0/task.json
+2026-06-12T04:52:23.5332832Z ##[debug]system.culture=en-US
+2026-06-12T04:52:23.5343929Z ##[debug]failOnStderr=false
+2026-06-12T04:52:23.5346602Z ##[debug]script=echo "🐳 Pulling latest Hermes Agent image..."
+docker pull prateekmeherk/hermes-ado-agent:v32
+
+echo "🚀 Executing Agent Sandbox..."
+docker run --rm \
+  -e MOCK_PAT="***" \
+  -e COMPANY_PAT="***" \
+  -e AZURE_FOUNDRY_API_KEY="***" \
+  -e MOCK_ORG="PrateekSymphony" \
+  -e MOCK_PROJECT="APEX2.0-Mock" \
+  -e COMPANY_ORG="summitai00100" \
+  -e COMPANY_PROJECT="APEX2.0" \
+  -e CI="true" \
+  prateekmeherk/hermes-ado-agent:v32
+2026-06-12T04:52:23.5349179Z ##[debug]workingDirectory=/home/vsts/work/1/s
+2026-06-12T04:52:23.5351193Z ##[debug]check path : /home/vsts/work/1/s
+2026-06-12T04:52:23.5352426Z Generating script.
+2026-06-12T04:52:23.5353937Z ##[debug]Agent.Version=4.274.1
+2026-06-12T04:52:23.5355706Z ##[debug]Detected Agent.Version=4.274.1
+2026-06-12T04:52:23.5357404Z ##[debug]agent.tempDirectory=/home/vsts/work/_temp
+2026-06-12T04:52:23.5359410Z ##[debug]check path : /home/vsts/work/_temp
+2026-06-12T04:52:23.5360697Z ========================== Starting Command Output ===========================
+2026-06-12T04:52:23.5362054Z ##[debug]which 'bash'
+2026-06-12T04:52:23.5363693Z ##[debug]found: '/usr/bin/bash'
+2026-06-12T04:52:23.5365223Z ##[debug]which '/usr/bin/bash'
+2026-06-12T04:52:23.5366689Z ##[debug]found: '/usr/bin/bash'
+2026-06-12T04:52:23.5368132Z ##[debug]/usr/bin/bash arg: --noprofile
+2026-06-12T04:52:23.5369973Z ##[debug]/usr/bin/bash arg: --norc
+2026-06-12T04:52:23.5371526Z ##[debug]/usr/bin/bash arg: /home/vsts/work/_temp/46cb78ce-cb09-4fd4-9322-a70a8282ae72.sh
+2026-06-12T04:52:23.5373050Z ##[debug]exec tool: /usr/bin/bash
+2026-06-12T04:52:23.5374503Z ##[debug]arguments:
+2026-06-12T04:52:23.5376075Z ##[debug]   --noprofile
+2026-06-12T04:52:23.5377626Z ##[debug]   --norc
+2026-06-12T04:52:23.5379587Z ##[debug]   /home/vsts/work/_temp/46cb78ce-cb09-4fd4-9322-a70a8282ae72.sh
+2026-06-12T04:52:23.5381043Z [command]/usr/bin/bash --noprofile --norc /home/vsts/work/_temp/46cb78ce-cb09-4fd4-9322-a70a8282ae72.sh
+2026-06-12T04:52:23.5510568Z 🐳 Pulling latest Hermes Agent image...
+2026-06-12T04:52:26.7300366Z v32: Pulling from prateekmeherk/hermes-ado-agent
+2026-06-12T04:52:27.4566661Z ##[debug]Agent environment resources - Disk: / Available 15600.41 MB out of 73325.30 MB, Memory: Used 859.00 MB out of 7938.00 MB, CPU: Usage 5.43%
+2026-06-12T04:52:27.4589468Z ff86ea2e5edc: Pulling fs layer
+2026-06-12T04:52:27.4605252Z e54aec64c365: Pulling fs layer
+2026-06-12T04:52:27.4606349Z 804d4d68057c: Pulling fs layer
+2026-06-12T04:52:27.4607097Z 64cfb949317c: Pulling fs layer
+2026-06-12T04:52:27.4608115Z 3c02fd806613: Pulling fs layer
+2026-06-12T04:52:27.4608821Z 0af481bb46d4: Pulling fs layer
+2026-06-12T04:52:27.4610102Z 1f16b3873990: Pulling fs layer
+2026-06-12T04:52:27.4610996Z cad99436dc7d: Pulling fs layer
+2026-06-12T04:52:27.4611898Z 17a25135c17b: Pulling fs layer
+2026-06-12T04:52:27.4612591Z d6e1fa7d3583: Pulling fs layer
+2026-06-12T04:52:27.4613218Z 87424028c1d0: Pulling fs layer
+2026-06-12T04:52:27.4614145Z 1501a294a50d: Pulling fs layer
+2026-06-12T04:52:27.4615771Z 3067d9a77ad4: Pulling fs layer
+2026-06-12T04:52:27.4616685Z 9dbc92210178: Pulling fs layer
+2026-06-12T04:52:27.4617482Z 762abd81ca92: Pulling fs layer
+2026-06-12T04:52:27.4617979Z c17f0776c525: Pulling fs layer
+2026-06-12T04:52:27.4618404Z 7ac4c08bc8ad: Pulling fs layer
+2026-06-12T04:52:27.4618819Z 64cfb949317c: Waiting
+2026-06-12T04:52:27.4619597Z 3c02fd806613: Waiting
+2026-06-12T04:52:27.4620027Z 0af481bb46d4: Waiting
+2026-06-12T04:52:27.4620434Z 1f16b3873990: Waiting
+2026-06-12T04:52:27.4620840Z cad99436dc7d: Waiting
+2026-06-12T04:52:27.4621222Z d6e1fa7d3583: Waiting
+2026-06-12T04:52:27.4621598Z 87424028c1d0: Waiting
+2026-06-12T04:52:27.4621984Z 1501a294a50d: Waiting
+2026-06-12T04:52:27.4622379Z 3067d9a77ad4: Waiting
+2026-06-12T04:52:27.4622752Z 9dbc92210178: Waiting
+2026-06-12T04:52:27.4623133Z 762abd81ca92: Waiting
+2026-06-12T04:52:27.4623682Z c17f0776c525: Waiting
+2026-06-12T04:52:27.4640184Z 7ac4c08bc8ad: Waiting
+2026-06-12T04:52:27.4642284Z 17a25135c17b: Waiting
+2026-06-12T04:52:28.1737161Z e54aec64c365: Verifying Checksum
+2026-06-12T04:52:28.1738023Z e54aec64c365: Download complete
+2026-06-12T04:52:28.2881244Z ff86ea2e5edc: Verifying Checksum
+2026-06-12T04:52:28.2882865Z ff86ea2e5edc: Download complete
+2026-06-12T04:52:28.3215840Z 804d4d68057c: Verifying Checksum
+2026-06-12T04:52:28.3217054Z 804d4d68057c: Download complete
+2026-06-12T04:52:28.8655030Z 64cfb949317c: Verifying Checksum
+2026-06-12T04:52:28.8655842Z 64cfb949317c: Download complete
+2026-06-12T04:52:28.9546817Z 3c02fd806613: Verifying Checksum
+2026-06-12T04:52:28.9548836Z 3c02fd806613: Download complete
+2026-06-12T04:52:29.6223126Z ff86ea2e5edc: Pull complete
+2026-06-12T04:52:30.0718533Z e54aec64c365: Pull complete
+2026-06-12T04:52:30.1007422Z 1f16b3873990: Verifying Checksum
+2026-06-12T04:52:30.1008005Z 1f16b3873990: Download complete
+2026-06-12T04:52:31.3689643Z 17a25135c17b: Verifying Checksum
+2026-06-12T04:52:31.3690680Z 17a25135c17b: Download complete
+2026-06-12T04:52:31.7628473Z cad99436dc7d: Verifying Checksum
+2026-06-12T04:52:31.7629731Z cad99436dc7d: Download complete
+2026-06-12T04:52:31.9647134Z 804d4d68057c: Pull complete
+2026-06-12T04:52:32.0380840Z 64cfb949317c: Pull complete
+2026-06-12T04:52:32.0574092Z 3c02fd806613: Pull complete
+2026-06-12T04:52:32.6166152Z d6e1fa7d3583: Verifying Checksum
+2026-06-12T04:52:32.6166954Z d6e1fa7d3583: Download complete
+2026-06-12T04:52:33.0091141Z 87424028c1d0: Verifying Checksum
+2026-06-12T04:52:33.0092205Z 87424028c1d0: Download complete
+2026-06-12T04:52:33.5595163Z ##[debug]Agent environment resources - Disk: / Available 15371.92 MB out of 73325.30 MB, Memory: Used 878.00 MB out of 7938.00 MB, CPU: Usage 7.11%
+2026-06-12T04:52:33.9277194Z 1501a294a50d: Verifying Checksum
+2026-06-12T04:52:33.9277749Z 1501a294a50d: Download complete
+2026-06-12T04:52:34.3163033Z 3067d9a77ad4: Verifying Checksum
+2026-06-12T04:52:34.3163566Z 3067d9a77ad4: Download complete
+2026-06-12T04:52:34.8336856Z 9dbc92210178: Verifying Checksum
+2026-06-12T04:52:34.8339702Z 9dbc92210178: Download complete
+2026-06-12T04:52:35.5793259Z 762abd81ca92: Verifying Checksum
+2026-06-12T04:52:35.5797408Z 762abd81ca92: Download complete
+2026-06-12T04:52:36.1317693Z c17f0776c525: Verifying Checksum
+2026-06-12T04:52:36.1323963Z c17f0776c525: Download complete
+2026-06-12T04:52:36.8588544Z 7ac4c08bc8ad: Verifying Checksum
+2026-06-12T04:52:36.8590397Z 7ac4c08bc8ad: Download complete
+2026-06-12T04:52:39.6624695Z ##[debug]Agent environment resources - Disk: / Available 15242.79 MB out of 73325.30 MB, Memory: Used 908.00 MB out of 7938.00 MB, CPU: Usage 4.55%
+2026-06-12T04:52:45.7714140Z ##[debug]Agent environment resources - Disk: / Available 15146.73 MB out of 73325.30 MB, Memory: Used 901.00 MB out of 7938.00 MB, CPU: Usage 3.95%
+2026-06-12T04:52:48.5463775Z 0af481bb46d4: Verifying Checksum
+2026-06-12T04:52:48.5464283Z 0af481bb46d4: Download complete
+2026-06-12T04:52:51.8780832Z ##[debug]Agent environment resources - Disk: / Available 15047.06 MB out of 73325.30 MB, Memory: Used 903.00 MB out of 7938.00 MB, CPU: Usage 80.56%
+2026-06-12T04:52:57.9839885Z ##[debug]Agent environment resources - Disk: / Available 14217.97 MB out of 73325.30 MB, Memory: Used 898.00 MB out of 7938.00 MB, CPU: Usage 66.41%
+2026-06-12T04:53:00.6572830Z 0af481bb46d4: Pull complete
+2026-06-12T04:53:00.6714899Z 1f16b3873990: Pull complete
+2026-06-12T04:53:02.9566735Z cad99436dc7d: Pull complete
+2026-06-12T04:53:02.9715741Z 17a25135c17b: Pull complete
+2026-06-12T04:53:02.9962235Z d6e1fa7d3583: Pull complete
+2026-06-12T04:53:03.0054722Z 87424028c1d0: Pull complete
+2026-06-12T04:53:03.0193743Z 1501a294a50d: Pull complete
+2026-06-12T04:53:03.0298544Z 3067d9a77ad4: Pull complete
+2026-06-12T04:53:03.0380136Z 9dbc92210178: Pull complete
+2026-06-12T04:53:03.0470572Z 762abd81ca92: Pull complete
+2026-06-12T04:53:03.0634424Z c17f0776c525: Pull complete
+2026-06-12T04:53:03.0737727Z 7ac4c08bc8ad: Pull complete
+2026-06-12T04:53:03.0786087Z Digest: sha256:2af4497f667b12541cf215f90a413c92594946590475252197951bea46d05fdd
+2026-06-12T04:53:03.0802711Z Status: Downloaded newer image for prateekmeherk/hermes-ado-agent:v32
+2026-06-12T04:53:03.0814556Z docker.io/prateekmeherk/hermes-ado-agent:v32
+2026-06-12T04:53:03.0831186Z 🚀 Executing Agent Sandbox...
+2026-06-12T04:53:03.5075258Z 🚀 Booting Automated Delivery Agent...
+2026-06-12T04:53:03.5184677Z Cloning into 'workspace-wiki'...
+2026-06-12T04:53:03.7640396Z 🧠 Running Technical Audit Sweep...
+2026-06-12T04:53:04.0908507Z ##[debug]Agent environment resources - Disk: / Available 14413.30 MB out of 73325.30 MB, Memory: Used 1226.00 MB out of 7938.00 MB, CPU: Usage 51.02%
+2026-06-12T04:53:04.1450278Z 📊 Raw dump: 46 bytes | Extracted report: 0 bytes
+2026-06-12T04:53:04.1451566Z ❌ FATAL: The extracted Markdown file is completely empty.
+2026-06-12T04:53:04.1452602Z ── Raw dump (first 200 lines) ──
+2026-06-12T04:53:04.1457607Z 
+2026-06-12T04:53:04.1462301Z ? Name of the agency (optional) () [35D[35C── End of raw dump ──
+2026-06-12T04:53:04.2393643Z 
+2026-06-12T04:53:04.2401834Z ##[debug]Process exited with code 1 and signal null for tool '/usr/bin/bash'
+2026-06-12T04:53:04.2406605Z ##[debug]STDIO streams have closed and received exit code 1 and signal null for tool '/usr/bin/bash'
+2026-06-12T04:53:04.2436174Z ##[error]Bash exited with code '1'.
+2026-06-12T04:53:04.2444034Z ##[debug]Processed: ##vso[task.issue type=error;source=TaskInternal;correlationId=a9ac9398-dea6-4d7d-ab00-720b8edc39dc;]Bash exited with code '1'.
+2026-06-12T04:53:04.2445354Z ##[debug]task result: Failed
+2026-06-12T04:53:04.2454215Z ##[debug]Processed: ##vso[task.complete result=Failed;done=true;]
+2026-06-12T04:53:04.2491486Z ##[section]Finishing: Execute Embedded Hermes Delivery Agent
+2026-06-12T04:53:04.2526189Z ##[debug]Evaluating condition for step: 'Checkout prateek-work-symphony/APEX2.0-Hermes@main to s'
+2026-06-12T04:53:04.2527360Z ##[debug]Evaluating: AlwaysNode()
+2026-06-12T04:53:04.2527655Z ##[debug]Evaluating AlwaysNode:
+2026-06-12T04:53:04.2529995Z ##[debug]Result: True
+2026-06-12T04:53:04.2531143Z ##[section]Starting: Checkout prateek-work-symphony/APEX2.0-Hermes@main to s
+2026-06-12T04:53:04.2535969Z ==============================================================================
+2026-06-12T04:53:04.2536149Z Task         : Get sources
+2026-06-12T04:53:04.2536251Z Description  : Get sources from a repository. Supports Git, TfsVC, and SVN repositories.
+2026-06-12T04:53:04.2536386Z Version      : 1.0.0
+2026-06-12T04:53:04.2536478Z Author       : Microsoft
+2026-06-12T04:53:04.2536577Z Help         : [More Information](https://go.microsoft.com/fwlink/?LinkId=798199)
+2026-06-12T04:53:04.2536700Z ==============================================================================
+2026-06-12T04:53:04.4800534Z Cleaning any cached credential from repository: prateek-work-symphony/APEX2.0-Hermes (GitHub)
+2026-06-12T04:53:04.4820475Z ##[debug]Repository url=https://github.com/prateek-work-symphony/APEX2.0-Hermes
+2026-06-12T04:53:04.4850093Z ##[debug]targetPath=/home/vsts/work/1/s
+2026-06-12T04:53:04.4870063Z ##[debug]Cleaned up /home/vsts/actions-runner/cached/4.274.1/externals/tee and /home/vsts/work/_temp/tee_temp_dir
+2026-06-12T04:53:04.4959499Z ##[section]Finishing: Checkout prateek-work-symphony/APEX2.0-Hermes@main to s
+2026-06-12T04:53:04.4986740Z ##[section]Starting: Finalize Job
+2026-06-12T04:53:04.4997487Z Cleaning up task key
+2026-06-12T04:53:04.4998133Z Start cleaning up orphan processes.
+2026-06-12T04:53:04.5250856Z ##[section]Finishing: Finalize Job
+2026-06-12T04:53:04.5278676Z ##[debug]Starting diagnostic file upload.
+2026-06-12T04:53:04.5279090Z ##[debug]Setting up diagnostic log folders.
+2026-06-12T04:53:04.5280316Z ##[debug]Creating diagnostic log files folder.
+2026-06-12T04:53:04.5281159Z ##[debug]Creating diagnostic log environment file.
+2026-06-12T04:53:04.5435348Z ##[debug]Creating capabilities file.
+2026-06-12T04:53:04.5452558Z ##[debug]Copying 1 worker diag logs from /home/vsts/actions-runner/cached/4.274.1/_diag.
+2026-06-12T04:53:04.5465462Z ##[debug]Copying 1 agent diag logs from /home/vsts/actions-runner/cached/4.274.1/_diag.
+2026-06-12T04:53:04.5466541Z ##[debug]Dumping of waagent.conf file
+2026-06-12T04:53:04.5469938Z ##[debug]Dumping waagent.conf file is completed.
+2026-06-12T04:53:04.5470154Z ##[debug]Dumping cloud-init logs.
+2026-06-12T04:53:04.7957471Z ##[debug]This command must be run as root.
+
+2026-06-12T04:53:04.7957929Z ##[debug]Cloud-init logs were not found.
+2026-06-12T04:53:04.7958073Z ##[debug]Dumping cloud-init logs is ended.
+2026-06-12T04:53:04.7958476Z ##[debug]The platform is not based on Debian - skipping debsums check.
+2026-06-12T04:53:04.7958625Z ##[debug]Starting dumping Agent Azure VM extension logs.
+2026-06-12T04:53:04.7963328Z ##[debug]Path to Agent Azure VM Linux extension logs does not exist.
+2026-06-12T04:53:04.7963609Z ##[debug](directory "/var/log/azure/Microsoft.VisualStudio.Services.TeamServicesAgentLinux" not found)
+2026-06-12T04:53:04.7963792Z ##[debug]Agent Azure VM extension logs not found. Skipping.
+2026-06-12T04:53:04.7963931Z ##[debug]Zipping diagnostic files.
+2026-06-12T04:53:04.8165789Z ##[debug]Uploading diagnostic metadata file.
+2026-06-12T04:53:04.8189526Z ##[debug]Diagnostic file upload complete.
+2026-06-12T04:53:04.8205923Z ##[section]Finishing: Job

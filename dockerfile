@@ -27,10 +27,12 @@ RUN npm install -g hermes-cli
 # 4. Pre-stage config into the EXACT path Hermes expects (SCAR TISSUE — DO NOT REMOVE)
 #    The vsts ghost user breaks Node's home directory resolution.
 #    run_sweep.sh sets HOME=/tmp/safe_home, so we pre-stage the config there.
+#    Hermes looks for config at ~/.hermes/config.yaml (NOT ~/.config/hermes/).
 #    This prevents Hermes from triggering its first-time setup wizard
 #    ("? Name of the agency") which crashes in headless environments.
-RUN mkdir -p /tmp/safe_home/.config/hermes && chmod -R 777 /tmp/safe_home
-COPY config.yaml /tmp/safe_home/.config/hermes/config.yaml
+RUN mkdir -p /tmp/safe_home/.hermes && chmod -R 777 /tmp/safe_home
+COPY config.yaml /tmp/safe_home/.hermes/config.yaml
+RUN touch /tmp/safe_home/.hermes/.env && chmod 666 /tmp/safe_home/.hermes/.env
 
 # Also keep a backup copy at the old location for resilience
 RUN mkdir -p /opt/hermes && chmod 777 /opt/hermes
