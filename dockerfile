@@ -15,17 +15,21 @@ RUN mv /usr/bin/chromium /usr/bin/chromium-orig && \
     printf '#!/bin/bash\nexec /usr/bin/chromium-orig --no-sandbox "$@"\n' > /usr/bin/chromium && \
     chmod +x /usr/bin/chromium
 
-# 3. Force ALL agent tools to use our safe system browser
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
-# 4. Install Hermes and setup the Public Config Folder
+# 3. Install Hermes and setup the Public Config Folder
 RUN npm install -g hermes-cli
 RUN mkdir -p /opt/hermes && chmod 777 /opt/hermes
 COPY config.yaml /opt/hermes/config.yaml
 RUN chmod 666 /opt/hermes/config.yaml
 
-# 5. Establish Workspace with Universal Permissions
+# 🌟 THE V30 FIX: The Inquirer.js Source Code Patch
+# This surgically rewrites the faulty list.js file inside the hermes-cli package 
+# so it safely returns "" instead of crashing on an undefined empty list!
+RUN find /usr/local/lib/node_modules -name "list.js" -type f -exec sed -i 's/return this.opt.choices.getChoice(this.selected).value;/return (this.opt.choices.getChoice(this.selected) || {value:""}).value;/g' {} + || true
+
+# 4. Establish Workspace with Universal Permissions
 WORKDIR /app
 RUN mkdir -p /app/assets && touch /app/assets/banner.txt
 COPY run_sweep.sh /app/run_sweep.sh

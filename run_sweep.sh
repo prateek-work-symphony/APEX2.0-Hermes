@@ -4,12 +4,20 @@ set -e
 export TERM=xterm-256color
 export GIT_TERMINAL_PROMPT=0
 
-# 🌟 THE V29 FIX: The Universal Home Override
-# Azure DevOps forces the 'vsts' user, breaking Node's homedir resolution.
-# We force Node to use a 100% writable temp folder so the config NEVER fails.
-export HOME=/tmp/safe_home
-mkdir -p $HOME/.hermes
-cp /opt/hermes/config.yaml $HOME/.hermes/config.yaml
+# 🌟 THE V30 FIX: The Configuration Blanket
+# We copy the config file to every conceivable Node/Unix home path 
+# so the Hermes CLI is virtually guaranteed to find it and skip the wizard.
+mkdir -p ~/.hermes ~/.config/hermes /root/.hermes /root/.config/hermes /app/.hermes
+cp /opt/hermes/config.yaml ~/.hermes/config.yaml 2>/dev/null || true
+cp /opt/hermes/config.yaml ~/.config/hermes/config.yaml 2>/dev/null || true
+cp /opt/hermes/config.yaml /root/.hermes/config.yaml 2>/dev/null || true
+cp /opt/hermes/config.yaml /root/.config/hermes/config.yaml 2>/dev/null || true
+cp /opt/hermes/config.yaml /app/.hermes/config.yaml 2>/dev/null || true
+cp /opt/hermes/config.yaml /app/config.yaml 2>/dev/null || true
+
+# Blanket the assets folder to prevent the missing banner crash
+mkdir -p ~/assets /root/assets /app/assets
+touch ~/assets/banner.txt /root/assets/banner.txt /app/assets/banner.txt
 
 echo "🚀 Booting Automated Delivery Agent..."
 rm -rf workspace-wiki
@@ -51,21 +59,23 @@ You are an automated engineering delivery agent.
 
 echo "🧠 Running Technical Audit Sweep..."
 
-# We keep Expect running with a 2-second delay just in case of UI hiccups,
-# but because the config is perfectly loaded, the wizard will not trigger.
+# If the wizard STILL triggers, the source code patch we applied 
+# guarantees 'send "\r"' will safely bypass it without crashing.
 expect -c '
 set timeout 150
 spawn -noecho hermes -z $env(PROMPT) chat
 expect {
-    "Name of the agency" { sleep 2; send "\r"; exp_continue }
-    "Select a state" { sleep 2; send "\r"; exp_continue }
+    "Name of the agency" { sleep 1; send "\r"; exp_continue }
+    "Select a state" { sleep 1; send "\r"; exp_continue }
     timeout { exit 0 }
     eof { exit 0 }
 }
 ' > /tmp/raw_dump_ansi.md 2>&1
 
+# Strip ANSI colors mathematically
 sed -E 's/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g' /tmp/raw_dump_ansi.md > /tmp/raw_dump.md
 
+# Extract strictly between the LLM tags
 sed -n '/\[START_REPORT\]/,/\[END_REPORT\]/p' /tmp/raw_dump.md | sed '1d;$d' > /tmp/Daily-Audit-Report.md
 
 if [ ! -s /tmp/Daily-Audit-Report.md ]; then
