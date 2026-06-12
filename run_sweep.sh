@@ -75,6 +75,19 @@ You are an automated engineering delivery agent running in a headless CI/CD pipe
 
 echo "🧠 Running Technical Audit Sweep..."
 
+# ── Phase 5b: Diagnostic Dump (remove once stable) ───────────────────
+echo "🔍 [DIAG] Config MCP section:"
+grep -A 10 "mcp_servers:" "$HOME/.hermes/config.yaml" || echo "[DIAG] No mcp_servers in config!"
+echo "🔍 [DIAG] .env contents (redacted):"
+cat "$HOME/.hermes/.env" | sed 's/=.*/=***REDACTED***/'
+echo "🔍 [DIAG] AZURE_DEVOPS_PAT set: $([ -n \"$AZURE_DEVOPS_PAT\" ] && echo YES || echo NO)"
+echo "🔍 [DIAG] AZURE_DEVOPS_ORG_URL: $AZURE_DEVOPS_ORG_URL"
+echo "🔍 [DIAG] npx @azure-devops/mcp location:"
+npx -y @azure-devops/mcp@latest --help 2>&1 | head -5 || echo "[DIAG] npx MCP failed!"
+echo "🔍 [DIAG] hermes mcp list:"
+hermes mcp 2>&1 | head -20 || echo "[DIAG] hermes mcp failed!"
+echo "🔍 [DIAG] End diagnostics"
+
 # ── Phase 6: The Clean Execution ──────────────────────────────────────
 # - hermes chat: starts a chat session
 # - -q "$PROMPT": single-query non-interactive mode (sends prompt and exits)

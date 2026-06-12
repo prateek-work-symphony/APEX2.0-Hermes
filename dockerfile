@@ -35,6 +35,10 @@ RUN mkdir -p /tmp/safe_home/.hermes && \
     curl -fsSL https://hermes-agent.nousresearch.com/install.sh | \
     bash -s -- --skip-setup --non-interactive --skip-browser --hermes-home /tmp/safe_home/.hermes
 
+# 3b. Pre-install the Azure DevOps MCP server package so npx finds it
+#     instantly at runtime instead of downloading on first launch.
+RUN npm install -g @azure-devops/mcp@latest
+
 # 4. Pre-stage config into the EXACT path Hermes expects (SCAR TISSUE — DO NOT REMOVE)
 #    Hermes looks for config at $HERMES_HOME/config.yaml (~/.hermes/config.yaml).
 #    run_sweep.sh sets HOME=/tmp/safe_home, so HERMES_HOME resolves to
