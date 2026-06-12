@@ -46,29 +46,28 @@ export AZURE_FOUNDRY_API_KEY="$AZURE_FOUNDRY_API_KEY"
 export PROMPT="
 You are an automated engineering delivery agent running in a headless CI/CD pipeline.
 
-1. Use your Azure DevOps MCP tool to search for all 'User Story', 'Task', and 'Bug' items in project '${COMPANY_PROJECT}' within organization '${COMPANY_ORG}' created or updated in the last 7 days.
+1. Use the mcp_azure_devops_search_workitem tool to search for work items of type 'Bug' with state 'Active' in project '${COMPANY_PROJECT}' within organization '${COMPANY_ORG}'. Return the 3 most recently updated results.
+2. Format the results as a short markdown list with a timestamp.
 
 🚨 STRICT OPERATING RULES:
-- TOOL EXECUTION: When invoking the Azure DevOps search tool, you MUST explicitly define all optional parameters (like 'state', 'assignedTo', etc.). Pass wildcards or empty strings if you want all results. DO NOT leave parameters undefined.
+- TOOL EXECUTION: When invoking the Azure DevOps search tool, you MUST explicitly define all optional parameters (like 'state', 'assignedTo', 'top', etc.). Pass wildcards or empty strings for parameters you want unfiltered. DO NOT leave parameters undefined.
+- Set 'top' to 3 to limit results.
 - DO NOT use any browser, web_extract, or search tools. Only use the Azure DevOps MCP tool.
 - You MUST wrap your final markdown report exactly within these tags on their own lines:
 [START_REPORT]
 <Your raw markdown goes here>
 [END_REPORT]
-- If your search returns 0 results, output EXACTLY and ONLY: '🎯 No new production items detected in the last 7 days.' between the tags.
+- If your search returns 0 results, output EXACTLY and ONLY: '🎯 No active bugs found in ${COMPANY_PROJECT}.' between the tags.
 - Output ONLY the raw Markdown. No code blocks (\`\`\`markdown).
 
 ---
-## 🛠️ ${COMPANY_PROJECT} Production Audit (Synced: $(date +%Y-%m-%d))
+## 🐛 ${COMPANY_PROJECT} — Top 3 Active Bugs ($(date '+%Y-%m-%d %H:%M UTC'))
 
-### 📝 Strategic Content Breakdown
-* **[ID]** \`[Item Title]\`
-  - *Type:* [User Story / Bug / Task]
-  - *Origin:* Created/Updated by [User] on [Date]
-  - *Core Objective:* _[1-sentence description summary]_
-
-### 🔍 Architecture & Alignment Note
-- Provide a quick 1-sentence evaluation on whether these items appear aligned with the current active sprint.
+| # | Bug Title | Last Updated |
+|---|-----------|--------------|
+| 1 | \`[Title]\` | [Date] |
+| 2 | \`[Title]\` | [Date] |
+| 3 | \`[Title]\` | [Date] |
 "
 
 echo "🧠 Running Technical Audit Sweep..."

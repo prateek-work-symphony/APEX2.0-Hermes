@@ -584,7 +584,7 @@ mcp_servers:
     command: "/bin/bash"
     args:
       - "-c"
-      - "PERSONAL_ACCESS_TOKEN='<base 64 pat of the company organization's APEX2.0 project>' /Users/prateek.k/.nvm/versions/node/v26.3.0/bin/npx -y @azure-devops/mcp@latest summitai00100 --authentication pat"
+      - "PERSONAL_ACCESS_TOKEN='cHJhdGVlay5rQHN5bXBob255YWkuY29tOjJPMERiUTltUU5wQWxkN2ppMjVqTGZzc1pMTVlPbXQ3QkZQMU56SHoyZDVPQ25WZ3J5dkFKUVFKOTlDRkFDQUFBQUE3bDA0dUFBQVNBWkRPNDFJNA==' /Users/prateek.k/.nvm/versions/node/v26.3.0/bin/npx -y @azure-devops/mcp@latest summitai00100 --authentication pat"
   mcp-cron:
     command: /Users/prateek.k/.nvm/versions/node/v26.3.0/bin/npx
     args:
