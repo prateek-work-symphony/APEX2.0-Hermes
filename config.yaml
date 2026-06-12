@@ -521,6 +521,9 @@ sessions:
 onboarding:
   seen:
     tool_progress_prompt: true
+    first_run: true
+    name_prompt: true
+    welcome: true
 updates:
   pre_update_backup: false
   backup_keep: 5
