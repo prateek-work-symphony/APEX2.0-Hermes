@@ -66,10 +66,14 @@ You are an automated engineering delivery agent running in a headless CI/CD pipe
 echo "🧠 Running Technical Audit Sweep..."
 
 # ── Phase 6: The Clean Execution ──────────────────────────────────────
+# - hermes chat: starts a chat session
+# - -q "$PROMPT": single-query non-interactive mode (sends prompt and exits)
+# - --yolo: auto-approve all tool calls without asking
+# - -Q: quiet/programmatic mode (suppresses banners, spinners, tool previews)
 # - < /dev/null: cleanly closes stdin so Hermes never blocks waiting for input
 # - timeout 300: kills the process after 5 minutes to prevent pipeline hangs
 # - || true: ensures we reach our own diagnostics even if hermes exits non-zero
-timeout 300 hermes -z "$PROMPT" chat -y < /dev/null > /tmp/raw_dump.md 2>&1 || true
+timeout 300 hermes chat -q "$PROMPT" --yolo -Q < /dev/null > /tmp/raw_dump.md 2>&1 || true
 
 # ── Phase 7: Extract the Report ───────────────────────────────────────
 sed -n '/\[START_REPORT\]/,/\[END_REPORT\]/p' /tmp/raw_dump.md | sed '1d;$d' > /tmp/Daily-Audit-Report.md
