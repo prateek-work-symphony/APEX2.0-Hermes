@@ -441,7 +441,7 @@ matrix:
   free_response_rooms: ''
   allowed_rooms: ''
 approvals:
-  mode: auto
+  mode: manual
   timeout: 60
   cron_mode: allow
   mcp_reload_confirm: true
@@ -521,9 +521,6 @@ sessions:
 onboarding:
   seen:
     tool_progress_prompt: true
-    first_run: true
-    name_prompt: true
-    welcome: true
 updates:
   pre_update_backup: false
   backup_keep: 5
@@ -582,13 +579,19 @@ yuanbao:
 - hermes-yuanbao teams
 - hermes-teams google_chat
 - hermes-google_chat
-
 mcp_servers:
   azure-devops:
     command: "/bin/bash"
     args:
       - "-c"
-      - "PERSONAL_ACCESS_TOKEN='PLACEHOLDER_PAT' /usr/local/bin/npx -y @azure-devops/mcp@latest PLACEHOLDER_ORG --authentication pat"
+      - "PERSONAL_ACCESS_TOKEN='<base 64 pat of the company organization's APEX2.0 project>' /Users/prateek.k/.nvm/versions/node/v26.3.0/bin/npx -y @azure-devops/mcp@latest summitai00100 --authentication pat"
+  mcp-cron:
+    command: /Users/prateek.k/.nvm/versions/node/v26.3.0/bin/npx
+    args:
+    - -y
+    - mcp-cron
+    - --transport
+    - stdio
 
 # ── Fallback Model ────────────────────────────────────────────────────
 # Automatic provider failover when primary is unavailable.

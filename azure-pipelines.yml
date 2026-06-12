@@ -25,6 +25,7 @@ steps:
       -e MOCK_PROJECT="$(MOCK_PROJECT)" \
       -e COMPANY_ORG="$(COMPANY_ORG)" \
       -e COMPANY_PROJECT="$(COMPANY_PROJECT)" \
+      -e B64_COMPANY_PAT="$(B64_COMPANY_PAT)" \
       -e CI="true" \
       prateekmeherk/hermes-ado-agent:v32
       
