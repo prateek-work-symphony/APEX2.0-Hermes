@@ -30,8 +30,17 @@ git -c http.extraheader="AUTHORIZATION: Basic $B64_MOCK_PAT" clone \
   workspace-wiki
 
 # ── Phase 4: Authenticate the MCP Tool ────────────────────────────────
+# Inject the COMPANY_ORG into the MCP server config (replaces PLACEHOLDER_ORG)
+sed -i "s|PLACEHOLDER_ORG|${COMPANY_ORG}|g" "$HOME/.hermes/config.yaml"
+
+# Export PAT so MCP subprocess inherits it from the process environment
 export AZURE_DEVOPS_PAT="$COMPANY_PAT"
 export AZURE_DEVOPS_ORG_URL="https://dev.azure.com/${COMPANY_ORG}"
+
+# Also write credentials into .env so Hermes can pick them up
+echo "AZURE_DEVOPS_PAT=$COMPANY_PAT" >> "$HOME/.hermes/.env"
+echo "AZURE_FOUNDRY_API_KEY=$AZURE_FOUNDRY_API_KEY" >> "$HOME/.hermes/.env"
+export AZURE_FOUNDRY_API_KEY="$AZURE_FOUNDRY_API_KEY"
 
 # ── Phase 5: Construct the LLM Prompt ────────────────────────────────
 # The prompt forces the LLM to supply ALL tool parameters explicitly,
