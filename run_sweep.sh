@@ -1,41 +1,26 @@
 #!/bin/bash
 set -e
 
-export TERM=xterm-256color
-export GIT_TERMINAL_PROMPT=0
-
-# 🌟 THE V30 FIX: The Configuration Blanket
-# We copy the config file to every conceivable Node/Unix home path 
-# so the Hermes CLI is virtually guaranteed to find it and skip the wizard.
-mkdir -p ~/.hermes ~/.config/hermes /root/.hermes /root/.config/hermes /app/.hermes
-cp /opt/hermes/config.yaml ~/.hermes/config.yaml 2>/dev/null || true
-cp /opt/hermes/config.yaml ~/.config/hermes/config.yaml 2>/dev/null || true
-cp /opt/hermes/config.yaml /root/.hermes/config.yaml 2>/dev/null || true
-cp /opt/hermes/config.yaml /root/.config/hermes/config.yaml 2>/dev/null || true
-cp /opt/hermes/config.yaml /app/.hermes/config.yaml 2>/dev/null || true
-cp /opt/hermes/config.yaml /app/config.yaml 2>/dev/null || true
-
-# Blanket the assets folder to prevent the missing banner crash
-mkdir -p ~/assets /root/assets /app/assets
-touch ~/assets/banner.txt /root/assets/banner.txt /app/assets/banner.txt
-
 echo "🚀 Booting Automated Delivery Agent..."
 rm -rf workspace-wiki
 mkdir -p workspace-wiki
 
-# Authenticate Git with the MOCK_PAT
+# 1. Authenticate Git with the MOCK_PAT
 B64_MOCK_PAT=$(printf "%s:%s" "" "$MOCK_PAT" | base64 | tr -d '\n')
 git -c http.extraheader="AUTHORIZATION: Basic $B64_MOCK_PAT" clone "https://dev.azure.com/${MOCK_ORG}/${MOCK_PROJECT}/_git/${MOCK_PROJECT}.wiki" workspace-wiki
 
-# Authenticate the MCP Tool with the COMPANY_PAT
+# 2. Authenticate the MCP Tool with the COMPANY_PAT
 export AZURE_DEVOPS_PAT="$COMPANY_PAT"
 
+# 🌟 THE FIX: We architect the prompt to force the LLM to supply wildcard parameters,
+# ensuring the Hermes CLI NEVER tries to render an interactive dropdown.
 export PROMPT="
 You are an automated engineering delivery agent.
 
 1. Use your Azure DevOps MCP tool to search for all 'User Story', 'Task', and 'Bug' items in project '${COMPANY_PROJECT}' within organization '${COMPANY_ORG}' created or updated in the last 7 days.
 
 🚨 STRICT OPERATING RULES:
+- TOOL EXECUTION: When invoking the Azure DevOps search tool, you MUST explicitly define all optional parameters (like 'state', 'assignedTo', etc.). Pass wildcards or empty strings if you want all results. DO NOT leave parameters undefined.
 - DO NOT use any browser, web_extract, or search tools. Only use the Azure DevOps MCP tool.
 - You MUST wrap your final markdown report exactly within these tags on their own lines:
 [START_REPORT]
@@ -59,21 +44,10 @@ You are an automated engineering delivery agent.
 
 echo "🧠 Running Technical Audit Sweep..."
 
-# If the wizard STILL triggers, the source code patch we applied 
-# guarantees 'send "\r"' will safely bypass it without crashing.
-expect -c '
-set timeout 150
-spawn -noecho hermes -z $env(PROMPT) chat
-expect {
-    "Name of the agency" { sleep 1; send "\r"; exp_continue }
-    "Select a state" { sleep 1; send "\r"; exp_continue }
-    timeout { exit 0 }
-    eof { exit 0 }
-}
-' > /tmp/raw_dump_ansi.md 2>&1
-
-# Strip ANSI colors mathematically
-sed -E 's/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g' /tmp/raw_dump_ansi.md > /tmp/raw_dump.md
+# 🌟 THE CLEAN EXECUTION
+# We pipe < /dev/null to cleanly close the session after the LLM finishes its first thought.
+# We append '-y' (or the equivalent auto-approve flag for your CLI) to prevent tool approval prompts.
+hermes -z "$PROMPT" chat -y < /dev/null > /tmp/raw_dump.md || true
 
 # Extract strictly between the LLM tags
 sed -n '/\[START_REPORT\]/,/\[END_REPORT\]/p' /tmp/raw_dump.md | sed '1d;$d' > /tmp/Daily-Audit-Report.md
