@@ -14,7 +14,7 @@ pool:
 steps:
 - script: |
     echo "🐳 Pulling latest Hermes Agent image..."
-    docker pull prateekmeherk/hermes-ado-agent:v32
+    docker pull prateekmeherk/hermes-ado-agent:v33
     
     echo "🚀 Executing Agent Sandbox..."
     docker run --rm \
@@ -27,6 +27,6 @@ steps:
       -e COMPANY_PROJECT="$(COMPANY_PROJECT)" \
       -e B64_COMPANY_PAT="$(B64_COMPANY_PAT)" \
       -e CI="true" \
-      prateekmeherk/hermes-ado-agent:v32
+      prateekmeherk/hermes-ado-agent:v33
       
   displayName: 'Execute Embedded Hermes Delivery Agent'
