@@ -46,20 +46,24 @@ export AZURE_FOUNDRY_API_KEY="$AZURE_FOUNDRY_API_KEY"
 export PROMPT="
 You are an automated engineering delivery agent running in a headless CI/CD pipeline.
 
-1. Use the mcp_azure_devops_search_workitem tool to search for ALL work items (Bug, Task, User Story) under area path 'APEX2.0\Spark (AI)' in project '${COMPANY_PROJECT}' within organization '${COMPANY_ORG}'.
-2. For each work item returned, include: ID, Title, Type, State, Assigned To, and a 1-sentence Description summary.
-3. Format the results as a detailed markdown table with a timestamp header.
+1. Use the Azure DevOps MCP tools to run a WIQL query against project '${COMPANY_PROJECT}' in organization '${COMPANY_ORG}'.
+2. The WIQL query MUST be:
+   SELECT [System.Id], [System.Title], [System.WorkItemType], [System.State], [System.AssignedTo], [System.Description]
+   FROM WorkItems
+   WHERE [System.AreaPath] UNDER 'APEX2.0\\\\Spark (AI)'
+   ORDER BY [System.ChangedDate] DESC
+3. For each work item returned, include: ID, Title, Type, State, Assigned To, and a 1-sentence Description summary.
+4. Format the results as a detailed markdown table with a timestamp header.
 
 🚨 STRICT OPERATING RULES:
-- TOOL EXECUTION: When invoking the Azure DevOps search tool, you MUST explicitly define all optional parameters (like 'state', 'assignedTo', 'top', 'areaPath', etc.). Pass wildcards or empty strings for parameters you want unfiltered. DO NOT leave parameters undefined.
-- Set 'areaPath' to 'Spark (AI)'.
-- DO NOT filter by state — return items in any state (Active, New, Closed, Resolved, etc.).
-- DO NOT use any browser, web_extract, or search tools. Only use the Azure DevOps MCP tool.
+- Use the WIQL query tool (NOT search_workitem — that only does fulltext search and cannot filter by area path).
+- If no WIQL tool is available, try listing work items or use whatever structured query tool the Azure DevOps MCP provides that supports field-level filtering.
+- DO NOT use any browser, web_extract, or search tools. Only use the Azure DevOps MCP tools.
 - You MUST wrap your final markdown report exactly within these tags on their own lines:
 [START_REPORT]
 <Your raw markdown goes here>
 [END_REPORT]
-- If your search returns 0 results, output EXACTLY and ONLY: '🎯 No work items found under Spark (AI) area path.' between the tags.
+- If your query returns 0 results, output EXACTLY and ONLY: '🎯 No work items found under Spark (AI) area path.' between the tags.
 - Output ONLY the raw Markdown. No code blocks (\`\`\`markdown).
 
 ---
